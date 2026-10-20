@@ -4,7 +4,7 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0f172a">
   <meta charset="utf-8">
-  <title>Web App Otomasi Gudang</title>
+  <title>Sistem Manajemen Gudang Online - Nuhsantara Merchandise</title>
    <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%230f172a'/><stop offset='100%25' stop-color='%231e293b'/></linearGradient></defs><rect width='32' height='32' rx='6' fill='url(%23bg)'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-weight='900' font-size='20' fill='%2338bdf8'>NM</text></svg>">
   
@@ -12,6 +12,58 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- ================= CUSTOM TITLE BAR / HEADER APLIKASI ================= -->
+  <div id="custom-titlebar">
+    <div class="titlebar-left">
+      <!-- Icon SVG Logo NM -->
+      <svg class="titlebar-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <defs>
+          <linearGradient id="bg-logo" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0f172a"/>
+            <stop offset="100%" stop-color="#1e293b"/>
+          </linearGradient>
+        </defs>
+        <rect width="32" height="32" rx="6" fill="url(#bg-logo)"/>
+        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#38bdf8">NM</text>
+      </svg>
+      <span class="app-title">Sistem Manajemen Gudang Online - Nuhsantara Merchandise</span>
+    </div>
+    
+    <div class="titlebar-right">
+      <!-- Tombol Refresh Cyberpunk Glitch -->
+      <button id="btn-refresh" onclick="refreshAplikasi()" title="Refresh Data Aplikasi">
+        <span id="icon-refresh">🔄</span>
+        <span id="text-refresh">Refresh</span>
+      </button>
+
+      <!-- Tombol Pengaturan Link GAS -->
+      <button class="win-btn" onclick="bukaModalGas()" title="Pengaturan Link GAS">⚙️</button>
+      
+      <!-- Tombol Kontrol Jendela -->
+      <button class="win-btn" onclick="toggleFullscreen()" title="Layar Penuh">⛶</button>
+      <button class="win-btn close-btn" onclick="tutupAplikasi()" title="Tutup Aplikasi">✕</button>
+    </div>
+  </div>
+
+  <!-- ================= MODAL SETTINGS LINK GAS (CYBERPUNK STYLE) ================= -->
+  <div id="modal-gas-config" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 11, 20, 0.85); backdrop-filter: blur(12px); z-index: 100000000; justify-content: center; align-items: center;">
+    <div style="background: #0f172a; border: 1px solid #38bdf8; padding: 28px; border-radius: 16px; width: 90%; max-width: 480px; box-shadow: 0 0 30px rgba(56, 189, 248, 0.25); font-family: monospace;">
+      <h3 style="color: #38bdf8; margin-top: 0; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+        ⚙️ PENGATURAN LINK GAS (BULANAN)
+      </h3>
+      <p style="color: #94a3b8; font-size: 12px; margin-bottom: 16px; line-height: 1.5;">
+        Masukkan URL Web App Google Apps Script (GAS) terbaru untuk bulan ini. Link akan tersimpan secara otomatis di memori lokal PWA.
+      </p>
+      
+      <label style="color: #c084fc; font-size: 11px; display: block; margin-bottom: 6px;">URL WEB APP GAS:</label>
+      <input type="text" id="input-gas-url" placeholder="https://script.google.com/macros/s/.../exec" style="width: 100%; padding: 10px 12px; background: #1e293b; border: 1px solid #475569; border-radius: 8px; color: #f8fafc; font-size: 12px; font-family: monospace; box-sizing: border-box; margin-bottom: 20px; outline: none;">
+      
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button onclick="tutupModalGas()" style="background: transparent; border: 1px solid #64748b; color: #94a3b8; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: monospace; font-size: 12px;">Batal</button>
+        <button onclick="simpanGasUrl()" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 1px solid #38bdf8; color: white; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: monospace; font-size: 12px; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);">💾 Simpan Link</button>
+      </div>
+    </div>
+  </div>
   <!-- ================= LAYAR BLUR TAP TO ENTER (GERBANG UTAMA) ================= -->
 <div id="tap-to-enter-gate" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 11, 20, 0.94); backdrop-filter: blur(16px); z-index: 9999999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; cursor: pointer;">
   <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.4); padding: 40px; border-radius: 24px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 40px rgba(56, 189, 248, 0.2); max-width: 420px; width: 85%; pointer-events: none;">

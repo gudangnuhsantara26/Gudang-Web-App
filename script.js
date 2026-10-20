@@ -1,4 +1,18 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzukrX8QXwYKbgXIwyskJMHtuNS509kL5fTgK_WAxgQ7x4FoCAxHuumM-Dc02XA8zIY/exec";
+// =========================================================================
+// 🌐 KONFIGURASI DINAMIS LINK GAS (GOOGLE APPS SCRIPT)
+// =========================================================================
+const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzukrX8QXwYKbgXIwyskJMHtuNS509kL5fTgK_WAxgQ7x4FoCAxHuumM-Dc02XA8zIY/exec";
+
+// Fungsi untuk membaca Link GAS aktif dari LocalStorage browser
+function getGasUrl() {
+  return localStorage.getItem('GUDANG_GAS_URL') || DEFAULT_GAS_URL;
+}
+
+// Properti WEB_APP_URL dibuat dinamis membaca getGasUrl()
+Object.defineProperty(window, 'WEB_APP_URL', {
+  get: function() { return getGasUrl(); },
+  configurable: true
+});
 
 let currentDownloadUrl = "";
 const SCRIPT_URL_REKAPAN = "https://script.google.com/macros/s/AKfycbzLud58sY-o4azbshEww7-JSXCLoZ2sbmALaS2z6aRhmT-Q_vvXCzlDn4NqzBCedZpS/exec";
@@ -174,7 +188,7 @@ function updateRowCounter() {
   });
 
   if (shopeeCount > 0 || tiktokCount > 0) {
-    rowCounter.innerHTML = `📊 ${totalLines.toLocaleString()} baris <span style="font-size: 10px; opacity: 0.85; margin-left: 4px; font-weight: normal;">(Shopee: ${shopeeCount} | TikTok: ${tiktokCount})</span>`;
+    rowCounter.innerHTML = `📊 ${totalLines.toLocaleString()} baris <span style="font-size: 10px; opacity: 0.85; margin-left: 4px; font-weight: normal;">(Shopee: ${shopeeCount} \vert{} TikTok:${tiktokCount})</span>`;
   } else {
     rowCounter.innerText = `📊 ${totalLines.toLocaleString()} baris data`;
   }
@@ -196,6 +210,7 @@ if (document.readyState === 'loading') {
 } else {
   initAppListeners();
 }
+
 async function processData() {
   const textarea = document.getElementById('shopeeData');
   const rowCounter = document.getElementById('rowCounter');
@@ -223,7 +238,7 @@ async function processData() {
     </div>
   `;
   
-if (logDiv) logDiv.style.display = 'block';
+  if (logDiv) logDiv.style.display = 'block';
   if (logTextSpan) logTextSpan.innerText = '[' + new Date().toLocaleTimeString() + '] 🔄 Menghubungkan ke Cloud Database Google Drive...';
   if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
   
@@ -262,7 +277,7 @@ if (logDiv) logDiv.style.display = 'block';
       if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
 
       const now = new Date();
-      const formattedSyncTime = `${now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })} - ${now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })} WIB`;
+      const formattedSyncTime = `${now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })} -${now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })} WIB`;
       
       localStorage.setItem('gudang_last_sync', formattedSyncTime);
       updateLastSyncDisplay(formattedSyncTime);
@@ -334,7 +349,6 @@ function showCustomAlert(message, downloadUrl) {
   const modal = document.getElementById('customAlertModal');
   if (modal) modal.style.display = 'flex';
 }
-
 async function downloadExcelWithProgress(serverResponse) {
   if (serverResponse) {
     window.globalServerResponse = serverResponse;
@@ -386,7 +400,6 @@ async function downloadExcelWithProgress(serverResponse) {
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
-
     progress = 100;
     if (progressBar) progressBar.style.width = progress + '%';
     if (downloadBtnText) downloadBtnText.innerText = `✅ Berhasil Diunduh!`;
@@ -720,5 +733,83 @@ async function ambilDanPasteRekapan(btn) {
       btn.disabled = false;
       btn.innerHTML = originalText;
     }
+  }
+}
+
+// ==========================================
+// 🕹️ FUNGSI TITLEBAR & MODAL SETTINGS DYNAMIC GAS
+// ==========================================
+async function refreshAplikasi() {
+  const btnRefresh = document.getElementById('btn-refresh');
+  const iconRefresh = document.getElementById('icon-refresh');
+  const textRefresh = document.getElementById('text-refresh');
+  
+  if (textRefresh) textRefresh.innerText = "Memuat...";
+  if (iconRefresh) iconRefresh.classList.add('glitch-spin');
+  if (btnRefresh) btnRefresh.style.pointerEvents = "none";
+
+  try {
+    if (typeof loadDataGudang === 'function') {
+      await loadDataGudang();
+    } else {
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      window.location.reload();
+      return;
+    }
+    
+    if (textRefresh) textRefresh.innerText = "Berhasil!";
+    setTimeout(() => { if (textRefresh) textRefresh.innerText = "Refresh"; }, 1500);
+
+  } catch (error) {
+    console.error("Gagal memuat data:", error);
+    if (textRefresh) textRefresh.innerText = "Gagal!";
+    setTimeout(() => { if (textRefresh) textRefresh.innerText = "Refresh"; }, 2000);
+  } finally {
+    if (iconRefresh) iconRefresh.classList.remove('glitch-spin');
+    if (btnRefresh) btnRefresh.style.pointerEvents = "auto";
+  }
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => console.log(err));
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+  }
+}
+
+function tutupAplikasi() {
+  if (confirm("Tutup aplikasi Gudang Nuhsantara?")) {
+    window.close();
+  }
+}
+
+// Buka Modal Settings
+function bukaModalGas() {
+  const modal = document.getElementById('modal-gas-config');
+  const input = document.getElementById('input-gas-url');
+  if (modal && input) {
+    input.value = getGasUrl();
+    modal.style.display = 'flex';
+  }
+}
+
+// Tutup Modal Settings
+function tutupModalGas() {
+  const modal = document.getElementById('modal-gas-config');
+  if (modal) modal.style.display = 'none';
+}
+
+// Simpan Link GAS Baru ke LocalStorage
+function simpanGasUrl() {
+  const input = document.getElementById('input-gas-url');
+  if (input && input.value.trim() !== '') {
+    const newUrl = input.value.trim();
+    localStorage.setItem('GUDANG_GAS_URL', newUrl);
+    alert("✅ Link GAS terbaru berhasil disimpan! Aplikasi akan direfresh otomatis.");
+    tutupModalGas();
+    window.location.reload();
+  } else {
+    alert("⚠️ Harap masukkan URL GAS yang valid!");
   }
 }

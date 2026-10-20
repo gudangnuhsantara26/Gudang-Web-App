@@ -472,3 +472,117 @@ button:not(#submitBtn) {
   /* Durasi kita set pas 29 detik sesuai total durasi step kamu */
   animation: continuousFlow 29s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
+/* Custom Title Bar Header */
+#custom-titlebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 38px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  z-index: 99999999; /* Paling atas agar tidak tertutup layar blur */
+  user-select: none;
+  font-family: monospace, sans-serif;
+  box-sizing: border-box;
+}
+
+.titlebar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e2e8f0;
+  font-size: 13px;
+}
+
+.titlebar-logo {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.app-title {
+  font-weight: 500;
+  color: #f8fafc;
+  white-space: nowrap;
+}
+
+.titlebar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Tombol Refresh Cyberpunk Glitch */
+#btn-refresh {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.15));
+  border: 1px solid #c084fc;
+  color: #f472b6;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: monospace;
+  transition: all 0.2s ease;
+}
+
+#btn-refresh:hover {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(236, 72, 153, 0.35));
+  box-shadow: 0 0 15px rgba(192, 132, 252, 0.6);
+}
+
+.glitch-spin {
+  animation: glitchAnim 0.4s infinite linear alternate, spin 1s linear infinite;
+  filter: drop-shadow(0 0 8px #e879f9);
+  display: inline-block;
+}
+
+@keyframes glitchAnim {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-2px, 2px) rotate(70deg); }
+  40% { transform: translate(-2px, -2px) rotate(140deg); }
+  60% { transform: translate(2px, 2px) rotate(210deg); }
+  80% { transform: translate(2px, -2px) rotate(280deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.win-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.close-btn:hover {
+  background: #ef4444 !important;
+  color: #fff !important;
+}
+
+body {
+  padding-top: 38px; /* Memberi jarak agar konten utama tidak tertutup titlebar */
+  margin: 0;
+}
