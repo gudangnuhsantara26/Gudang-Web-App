@@ -800,16 +800,24 @@ function tutupModalGas() {
   if (modal) modal.style.display = 'none';
 }
 
-// Simpan Link GAS Baru ke LocalStorage
+// Simpan Link GAS Baru ke LocalStorage dengan Tampilan Kustom
 function simpanGasUrl() {
   const input = document.getElementById('input-gas-url');
   if (input && input.value.trim() !== '') {
     const newUrl = input.value.trim();
     localStorage.setItem('GUDANG_GAS_URL', newUrl);
-    alert("✅ Link GAS terbaru berhasil disimpan! Aplikasi akan direfresh otomatis.");
     tutupModalGas();
-    window.location.reload();
+
+    // Pakai fungsi showCustomAlert yang sudah ada di aplikasimu biar tampilannya keren!
+    showCustomAlert("✅ Link GAS terbaru berhasil disimpan! Aplikasi akan direfresh otomatis.", "");
+    
+    // Tunggu sebentar lalu refresh otomatis
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+
   } else {
     alert("⚠️ Harap masukkan URL GAS yang valid!");
   }
 }
+
