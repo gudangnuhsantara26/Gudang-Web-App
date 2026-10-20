@@ -800,18 +800,27 @@ function tutupModalGas() {
   if (modal) modal.style.display = 'none';
 }
 
-// Simpan Link GAS Baru ke LocalStorage dengan Tampilan Kustom
+// Simpan Link GAS Baru ke LocalStorage
 function simpanGasUrl() {
   const input = document.getElementById('input-gas-url');
   if (input && input.value.trim() !== '') {
     const newUrl = input.value.trim();
     localStorage.setItem('GUDANG_GAS_URL', newUrl);
+    
+    // Tutup modal input
     tutupModalGas();
 
-    // Pakai fungsi showCustomAlert yang sudah ada di aplikasimu biar tampilannya keren!
-    showCustomAlert("✅ Link GAS terbaru berhasil disimpan! Aplikasi akan direfresh otomatis.", "");
-    
-    // Tunggu sebentar lalu refresh otomatis
+    // Buat elemen pop-up notifikasi sementara yang keren di tengah layar
+    const notification = document.createElement('div');
+    notification.innerHTML = `
+      <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); border: 1px solid #38bdf8; color: #e2e8f0; padding: 14px 24px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 99999; font-family: inherit; font-size: 14px; display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 18px;">✅</span>
+        <span><b>Berhasil!</b> Link GAS tersimpan. Aplikasi direfresh...</span>
+      </div>
+    `;
+    document.body.appendChild(notification);
+
+    // Refresh otomatis setelah 1.5 detik supaya operator sempat baca
     setTimeout(() => {
       window.location.reload();
     }, 1500);
@@ -820,4 +829,5 @@ function simpanGasUrl() {
     alert("⚠️ Harap masukkan URL GAS yang valid!");
   }
 }
+
 
