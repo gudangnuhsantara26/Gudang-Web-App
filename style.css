@@ -478,13 +478,12 @@ button:not(#submitBtn) {
   top: 0;
   left: 0;
   width: 100%;
-  height: 40px;
-  background: #0f172a; /* Warna background solid agar titlebar bawaan tertutup */
-  border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+  height: 32px; /* Kita buat sedikit lebih ringkas */
+  background: #0f172a;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 10px;
   z-index: 99999999;
   user-select: none;
   font-family: monospace, sans-serif;
@@ -601,7 +600,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 48px;
+  padding-top: 35px;
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
