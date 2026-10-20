@@ -810,7 +810,7 @@ function simpanGasUrl() {
     // Tutup modal input setting
     tutupModalGas();
 
-    // Buat elemen pop-up notifikasi melayang dengan z-index tertinggi
+    // Notifikasi SUKSES Melayang (Warna Hijau/Biru Neon)
     const notification = document.createElement('div');
     notification.innerHTML = `
       <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); border: 2px solid #38bdf8; color: #e2e8f0; padding: 16px 26px; border-radius: 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); z-index: 2147483647; font-family: inherit; font-size: 14px; display: flex; align-items: center; gap: 12px;">
@@ -820,12 +820,28 @@ function simpanGasUrl() {
     `;
     document.body.appendChild(notification);
 
-    // Berikan jeda 2.2 detik agar operator sempat membaca pesan sukses di layar manapun
+    // Refresh otomatis setelah 2.2 detik
     setTimeout(() => {
       window.location.reload();
     }, 2200);
 
   } else {
-    alert("⚠️ Harap masukkan URL GAS yang valid!");
+    // Notifikasi ERROR Melayang (Warna Merah Neon)
+    const errorNotif = document.createElement('div');
+    errorNotif.id = 'gas-error-notif';
+    errorNotif.innerHTML = `
+      <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(30, 10, 15, 0.98); border: 2px solid #f43f5e; color: #fecdd3; padding: 16px 26px; border-radius: 10px; box-shadow: 0 15px 35px rgba(244, 63, 94, 0.3); z-index: 2147483647; font-family: inherit; font-size: 14px; display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 20px;">⚠️</span>
+        <span><b>Gagal!</b> Harap masukkan URL GAS yang valid.</span>
+      </div>
+    `;
+    document.body.appendChild(errorNotif);
+
+    // Hilangkan notifikasi error otomatis setelah 3 detik (tanpa refresh)
+    setTimeout(() => {
+      if (document.getElementById('gas-error-notif')) {
+        document.getElementById('gas-error-notif').remove();
+      }
+    }, 3000);
   }
 }
