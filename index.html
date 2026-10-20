@@ -12,18 +12,6 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- HEADER KONTEN APLIKASI -->
-<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px;">
-  <h2 style="margin: 0; color: #fff; font-size: 1.1rem;">📦 Gudang App</h2>
-  <div style="display: flex; gap: 8px;">
-    <button onclick="refreshAplikasi()" title="Refresh Data" style="background: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
-      🔄 Refresh
-    </button>
-    <button onclick="bukaModalGas()" title="Pengaturan" style="background: #1e293b; color: #f43f5e; border: 1px solid #f43f5e; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
-      ⚙️ Setting
-    </button>
-  </div>
-</div>
 
   <!-- ================= MODAL SETTINGS LINK GAS (CYBERPUNK STYLE) ================= -->
   <div id="modal-gas-config" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 11, 20, 0.85); backdrop-filter: blur(12px); z-index: 100000000; justify-content: center; align-items: center;">
@@ -44,6 +32,7 @@
       </div>
     </div>
   </div>
+
   <!-- ================= LAYAR BLUR TAP TO ENTER (GERBANG UTAMA) ================= -->
 <div id="tap-to-enter-gate" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 11, 20, 0.94); backdrop-filter: blur(16px); z-index: 9999999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; cursor: pointer;">
   <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.4); padding: 40px; border-radius: 24px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 40px rgba(56, 189, 248, 0.2); max-width: 420px; width: 85%; pointer-events: none;">
@@ -94,10 +83,25 @@
 
     </div>
   </div>
-
   <!-- KOTAK UTAMA APLIKASI -->
   <div class="container animate-entrance">
     
+    <!-- HEADER ATAS APLIKASI (RAPI SEJAJAR DENGAN CONTAINER) -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 12px; margin-bottom: 14px; backdrop-filter: blur(8px);">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 1.2rem;">📦</span>
+        <h2 style="margin: 0; color: #f8fafc; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.5px;">Gudang App</h2>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button onclick="refreshAplikasi()" title="Refresh Data" style="background: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s;">
+          🔄 Refresh
+        </button>
+        <button onclick="bukaModalGas()" title="Pengaturan" style="background: #1e293b; color: #f43f5e; border: 1px solid #f43f5e; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s;">
+          ⚙️ Setting
+        </button>
+      </div>
+    </div>
+
     <!-- 1. ENTERPRISE STATUS BAR -->
     <div class="enterprise-status-bar anim-1" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 11.5px;">
       
@@ -183,10 +187,7 @@
 <div id="log" style="text-align: left !important;">
   <span id="logText" style="display: block; text-align: left !important;">[SYSTEM] Menunggu masukan data transaksi gudang...</span><span class="terminal-cursor"></span>
 </div>
-
- 
-
-  <!-- CUSTOM ALERT MODAL -->
+<!-- CUSTOM ALERT MODAL -->
   <div id="customAlertModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(6px); z-index: 9999; justify-content: center; align-items: center;">
     <div style="background: var(--card-bg, #1e293b); border: 1px solid rgba(255, 255, 255, 0.1); padding: 24px; border-radius: 16px; width: 360px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);">
       <div style="font-size: 36px; margin-bottom: 10px;">💡</div>
@@ -229,8 +230,7 @@
       <div style="font-size: 28px; margin-bottom: 10px;">🔒</div>
       <h3 style="color: #f8fafc; margin-bottom: 8px; font-size: 18px;">Verifikasi Operator Shift</h3>
       <p style="color: #94a3b8; font-size: 12px; margin-bottom: 20px;">Masukkan Nama atau ID Karyawan sesuai jadwal rotasi minggu ini.</p>
-      
-      <input type="text" id="inputOperatorKey" placeholder="Contoh: IRGI atau GND-001" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; font-size: 14px; margin-bottom: 15px; text-align: center; outline: none;" />
+<input type="text" id="inputOperatorKey" placeholder="Contoh: IRGI atau GND-001" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; font-size: 14px; margin-bottom: 15px; text-align: center; outline: none;" />
       
       <button onclick="verifyOperatorLogin()" style="width: 100%; background: #38bdf8; color: #0f172a; border: none; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px;">Masuk & Mulai Shift 🚀</button>
       <p id="loginErrorMsg" style="color: #f87171; font-size: 11px; margin-top: 10px; display: none;"></p>
@@ -300,8 +300,7 @@ function getNextOperator() {
       { text: "Mengamankan enkripsi token API...", color: "#facc15", duration: 4000 },
       { text: "Sistem Aktif & Terverifikasi", color: "#22c55e", duration: 6000 }
     ];
-
-    function startSystemInitialization() {
+function startSystemInitialization() {
   const initBtn = document.getElementById("init-btn");
   if (initBtn) {
     initBtn.style.opacity = "0.5";
@@ -326,11 +325,9 @@ function runBootSequence() {
 
   if (!bootScreenEl) return;
 
-  // Hitung total durasi dari semua step secara otomatis
   const totalDuration = bootSteps.reduce((acc, step) => acc + step.duration, 0);
   console.log("Total durasi booting:", totalDuration);
 
-  // Jalankan progress bar dengan requestAnimationFrame
   if (bootProgressFill) {
     let startTime = null;
     let duration = totalDuration; 
@@ -356,7 +353,6 @@ function runBootSequence() {
     if (currentStep < bootSteps.length) {
       const step = bootSteps[currentStep];
       
-      // Teks status berganti dengan transisi fade smooth (tanpa titik kuning)
       if (bootTextEl) {
         bootTextEl.style.transition = "opacity 0.2s ease-in-out";
         bootTextEl.style.opacity = "0";
@@ -517,5 +513,6 @@ function runBootSequence() {
       Special Thanks to Operators : <span style="color: #ffffff; font-weight: 600;">IRGI • DWI • ERIKA</span>
     </p>
   </div>
+</div>
 </body>
 </html>
