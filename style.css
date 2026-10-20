@@ -582,7 +582,28 @@ button:not(#submitBtn) {
   color: #fff !important;
 }
 
-body {
-  padding-top: 38px; /* Memberi jarak agar konten utama tidak tertutup titlebar */
+/* ==========================================
+   🔧 FIX LAYOUT TITLEBAR & BODY PWA
+   ========================================== */
+html, body {
+  width: 100%;
+  height: 100%;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg-gradient);
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 48px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
 }
