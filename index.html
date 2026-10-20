@@ -12,38 +12,18 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- ================= CUSTOM TITLE BAR / HEADER APLIKASI ================= -->
-  <div id="custom-titlebar">
-    <div class="titlebar-left">
-      <!-- Icon SVG Logo NM -->
-      <svg class="titlebar-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-        <defs>
-          <linearGradient id="bg-logo" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#0f172a"/>
-            <stop offset="100%" stop-color="#1e293b"/>
-          </linearGradient>
-        </defs>
-        <rect width="32" height="32" rx="6" fill="url(#bg-logo)"/>
-        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#38bdf8">NM</text>
-      </svg>
-      <span class="app-title">Sistem Manajemen Gudang Online - Nuhsantara Merchandise</span>
-    </div>
-    
-    <div class="titlebar-right">
-      <!-- Tombol Refresh Cyberpunk Glitch -->
-      <button id="btn-refresh" onclick="refreshAplikasi()" title="Refresh Data Aplikasi">
-        <span id="icon-refresh">🔄</span>
-        <span id="text-refresh">Refresh</span>
-      </button>
-
-      <!-- Tombol Pengaturan Link GAS -->
-      <button class="win-btn" onclick="bukaModalGas()" title="Pengaturan Link GAS">⚙️</button>
-      
-      <!-- Tombol Kontrol Jendela -->
-      <button class="win-btn" onclick="toggleFullscreen()" title="Layar Penuh">⛶</button>
-      <button class="win-btn close-btn" onclick="tutupAplikasi()" title="Tutup Aplikasi">✕</button>
-    </div>
+  <!-- HEADER KONTEN APLIKASI -->
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px;">
+  <h2 style="margin: 0; color: #fff; font-size: 1.1rem;">📦 Gudang App</h2>
+  <div style="display: flex; gap: 8px;">
+    <button onclick="refreshAplikasi()" title="Refresh Data" style="background: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+      🔄 Refresh
+    </button>
+    <button onclick="bukaModalGas()" title="Pengaturan" style="background: #1e293b; color: #f43f5e; border: 1px solid #f43f5e; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+      ⚙️ Setting
+    </button>
   </div>
+</div>
 
   <!-- ================= MODAL SETTINGS LINK GAS (CYBERPUNK STYLE) ================= -->
   <div id="modal-gas-config" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 11, 20, 0.85); backdrop-filter: blur(12px); z-index: 100000000; justify-content: center; align-items: center;">
