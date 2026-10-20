@@ -807,27 +807,25 @@ function simpanGasUrl() {
     const newUrl = input.value.trim();
     localStorage.setItem('GUDANG_GAS_URL', newUrl);
     
-    // Tutup modal input
+    // Tutup modal input setting
     tutupModalGas();
 
-    // Buat elemen pop-up notifikasi sementara yang keren di tengah layar
+    // Buat elemen pop-up notifikasi melayang dengan z-index tertinggi
     const notification = document.createElement('div');
     notification.innerHTML = `
-      <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); border: 1px solid #38bdf8; color: #e2e8f0; padding: 14px 24px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 99999; font-family: inherit; font-size: 14px; display: flex; align-items: center; gap: 10px;">
-        <span style="font-size: 18px;">✅</span>
-        <span><b>Berhasil!</b> Link GAS tersimpan. Aplikasi direfresh...</span>
+      <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); border: 2px solid #38bdf8; color: #e2e8f0; padding: 16px 26px; border-radius: 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); z-index: 2147483647; font-family: inherit; font-size: 14px; display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 20px;">✅</span>
+        <span><b>Berhasil!</b> Link GAS tersimpan. Memuat ulang...</span>
       </div>
     `;
     document.body.appendChild(notification);
 
-    // Refresh otomatis setelah 1.5 detik supaya operator sempat baca
+    // Berikan jeda 2.2 detik agar operator sempat membaca pesan sukses di layar manapun
     setTimeout(() => {
       window.location.reload();
-    }, 1500);
+    }, 2200);
 
   } else {
     alert("⚠️ Harap masukkan URL GAS yang valid!");
   }
 }
-
-
