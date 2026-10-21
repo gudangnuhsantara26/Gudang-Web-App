@@ -1,6 +1,6 @@
 {
   "name": "Sistem Manajemen Gudang Online - Nuhsantara Merchandise",
-  "short_name": "GudangApp",
+  "short_name": "NMGudang",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",
