@@ -1,6 +1,6 @@
 {
   "name": "Gudang - Nuhsantara Merchandise",
-  "short_name": "Gudang App",
+  "short_name": "Gudang NM",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",
