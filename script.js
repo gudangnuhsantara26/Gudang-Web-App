@@ -806,19 +806,20 @@ function simpanGasUrl() {
     const newUrl = input.value.trim();
     localStorage.setItem('GUDANG_GAS_URL', newUrl);
     
-    // Pasang flag bypass agar saat refresh langsung lompat ke halaman kerja utama
+    // Set flag bypass agar setelah refresh langsung lompat ke halaman utama
     localStorage.setItem('GUDANG_REFRESH_BYPASS', 'true');
     
     // Tutup modal input setting
     tutupModalGas();
 
-    // Tampilkan Toast Notifikasi Modern Custom
+    // Tampilkan Toast Notifikasi Custom di Tengah Atas
     showCustomToastNotification("✅ URL GAS Berhasil Diperbarui! Memuat ulang...", "#38bdf8");
 
-    // Refresh otomatis dalam 1.2 detik
+    // BERI JEDA WAKTU (DELAY) 1.5 DETIK SEBELUM REFRESH
+    // Ini bikin animasi toast muncul sempurna dulu di tengah, baru halaman reload.
     setTimeout(() => {
       window.location.reload();
-    }, 1200);
+    }, 1500);
 
   } else {
     showCustomToastNotification("⚠️ Harap masukkan URL GAS yang valid!", "#f43f5e");
