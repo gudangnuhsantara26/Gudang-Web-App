@@ -533,28 +533,47 @@ button:not(#submitBtn) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 6px 14px;
+  gap: 8px;
+  padding: 7px 14px;
   font-size: 13px;
   font-weight: 500;
-  color: #e2e8f0;                       /* Warna teks putih-keabuan yang soft */
-  background: rgba(255, 255, 255, 0.08); /* Background agak transparan modern */
-  border: 1px solid rgba(255, 255, 255, 0.15); /* Border tipis halus */
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   line-height: 1;
+  backdrop-filter: blur(4px);
 }
 
-/* Efek saat tombol di-hover / disentuh */
+/* Efek HOVER Canggih (Glow + Lift Up) */
 .btn-action:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(56, 189, 248, 0.15);            /* Aksen biru lembut */
+  border-color: #38bdf8;                            /* Border biru menyala */
   color: #ffffff;
+  transform: translateY(-2px);                     /* Efek tombol naik sedikit */
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);  /* Efek glow biru */
 }
 
-/* Ukuran dan warna ikon FontAwesome */
+/* Efek saat tombol DIKLIK (Active state) */
+.btn-action:active {
+  transform: translateY(0) scale(0.96);            /* Efek membal saat ditekan */
+  box-shadow: 0 2px 6px rgba(56, 189, 248, 0.2);
+}
+
+/* Styling Ikon FontAwesome */
 .btn-action i {
   font-size: 13px;
-  color: #38bdf8;                        /* Ikon warna biru neon modern */
+  color: #38bdf8;
+  transition: transform 0.3s ease;
+}
+
+/* Animasi khusus ikon pas tombol di-hover */
+.btn-action:hover .fa-rotate-right {
+  transform: rotate(180deg);                        /* Ikon refresh muter pas di-hover */
+}
+
+.btn-action:hover .fa-gear {
+  transform: rotate(45deg);                         /* Ikon gear geser dikit pas di-hover */
 }
