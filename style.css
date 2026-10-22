@@ -194,7 +194,7 @@ textarea:focus {
   box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
 }
 /* ==========================================================================
-   TOMBOL UTAMA: CENTERED & HIGH-CONTRAST GLOWING BORDER
+   ANIMATED GRADIENT BORDER BUTTON (Gaya ala Video Shorts)
    ========================================================================== */
 
 .btn-process-glow {
@@ -203,25 +203,25 @@ textarea:focus {
   align-items: center !important;
   justify-content: center !important;
   padding: 2px !important;
-  font-size: 14px !important;
+  font-size: 15px !important;
   font-weight: 600 !important;
   color: #ffffff !important;
-  background: #022c22 !important; /* Background gelap agar kontras */
+  background: #090d16 !important; /* Latar belakang gelap pekat */
   border: none !important;
-  border-radius: 12px !important;
+  border-radius: 50px !important; /* Bentuk lonjong kapsul mulus */
   cursor: pointer !important;
   overflow: hidden !important;
-  transition: all 0.4s ease !important;
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3) !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
   
-  /* KUNCI POSISI TENGAH SEMPURNA */
+  /* Posisi rata tengah sempurna & ukuran pas */
   width: auto !important;
-  min-width: 320px !important;    /* Sesuaikan lebar minimal tombol */
+  min-width: 220px !important;
   max-width: 100% !important;
-  margin: 16px auto !important;    /* Auto kiri-kanan bikin pas di tengah */
+  margin: 16px auto !important;
 }
 
-/* Garis Berjalan / Border Stream (Kita bikin warna putih terang & hijau neon agar tajam) */
+/* Garis Cahaya Gradasi Berputar di Pinggiran Border */
 .btn-process-glow::before {
   content: '';
   position: absolute;
@@ -233,25 +233,26 @@ textarea:focus {
     transparent,
     transparent,
     transparent,
-    #34d399, /* Hijau neon sangat terang */
-    #ffffff  /* Aksen putih biar kelihatan menyala tajam */
+    #34d399,
+    #ffffff,
+    #10b981
   );
-  animation: rotateBorder 2.5s linear infinite;
+  animation: rotateBorder 3s linear infinite;
   z-index: 1;
 }
 
-/* Inner Background Tombol */
+/* Bagian Dalam Tombol (Tetap Gelap Elegan, Tidak Penuh Warna) */
 .btn-process-glow::after {
   content: '';
   position: absolute;
   inset: 2px;
-  background: linear-gradient(135deg, #065f46 0%, #064e3b 100%);
-  border-radius: 10px;
+  background: #0b1329 !important; /* Warna dalam tombol konsisten */
+  border-radius: 48px !important;
   z-index: 2;
-  transition: background 0.4s ease;
+  transition: background 0.3s ease;
 }
 
-/* Wrapper Konten Teks & Ikon */
+/* Wrapper Teks & Ikon */
 .btn-content {
   position: relative;
   z-index: 3;
@@ -259,7 +260,7 @@ textarea:focus {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 12px 24px;
+  padding: 12px 28px;
   width: 100%;
   height: 100%;
   color: #ffffff;
@@ -272,9 +273,9 @@ textarea:focus {
 }
 
 #btnText i {
-  font-size: 16px;
+  font-size: 15px;
   color: #34d399;
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 @keyframes rotateBorder {
@@ -282,24 +283,22 @@ textarea:focus {
   100% { transform: rotate(360deg); }
 }
 
-/* Hover & Active States */
+/* Efek saat Di-Hover */
 .btn-process-glow:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 0 30px rgba(52, 211, 153, 0.6), 
-              0 0 50px rgba(16, 185, 129, 0.4) !important;
+  box-shadow: 0 0 25px rgba(52, 211, 153, 0.4) !important;
 }
 
 .btn-process-glow:hover::after {
-  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+  background: #0f1a36 !important; /* Sedikit lebih terang saat di-hover */
 }
 
 .btn-process-glow:hover #btnText i {
-  color: #ffffff;
-  transform: scale(1.2) rotate(12deg);
+  transform: scale(1.15) rotate(10deg);
 }
 
 .btn-process-glow:active {
-  transform: translateY(0) scale(0.98) !important;
+  transform: translateY(0) scale(0.97) !important;
 }
 
 /* DEVOPS TERMINAL LOG STYLE */
