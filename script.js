@@ -799,49 +799,78 @@ function tutupModalGas() {
   const modal = document.getElementById('modal-gas-config');
   if (modal) modal.style.display = 'none';
 }
-
-// Simpan Link GAS Baru ke LocalStorage
+// Simpan Link GAS Baru ke LocalStorage & Set Flag Auto-Bypass
 function simpanGasUrl() {
   const input = document.getElementById('input-gas-url');
   if (input && input.value.trim() !== '') {
     const newUrl = input.value.trim();
     localStorage.setItem('GUDANG_GAS_URL', newUrl);
     
+    // Pasang flag bypass agar saat refresh langsung lompat ke halaman kerja utama
+    localStorage.setItem('GUDANG_REFRESH_BYPASS', 'true');
+    
     // Tutup modal input setting
     tutupModalGas();
 
-    // Notifikasi SUKSES Melayang (Warna Hijau/Biru Neon)
-    const notification = document.createElement('div');
-    notification.innerHTML = `
-      <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); border: 2px solid #38bdf8; color: #e2e8f0; padding: 16px 26px; border-radius: 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); z-index: 2147483647; font-family: inherit; font-size: 14px; display: flex; align-items: center; gap: 12px;">
-        <span style="font-size: 20px;">✅</span>
-        <span><b>Berhasil!</b> Link GAS tersimpan. Memuat ulang...</span>
-      </div>
-    `;
-    document.body.appendChild(notification);
+    // Tampilkan Toast Notifikasi Modern Custom
+    showCustomToastNotification("✅ URL GAS Berhasil Diperbarui! Memuat ulang...", "#38bdf8");
 
-    // Refresh otomatis setelah 2.2 detik
+    // Refresh otomatis dalam 1.2 detik
     setTimeout(() => {
       window.location.reload();
-    }, 2200);
+    }, 1200);
 
   } else {
-    // Notifikasi ERROR Melayang (Warna Merah Neon)
-    const errorNotif = document.createElement('div');
-    errorNotif.id = 'gas-error-notif';
-    errorNotif.innerHTML = `
-      <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(30, 10, 15, 0.98); border: 2px solid #f43f5e; color: #fecdd3; padding: 16px 26px; border-radius: 10px; box-shadow: 0 15px 35px rgba(244, 63, 94, 0.3); z-index: 2147483647; font-family: inherit; font-size: 14px; display: flex; align-items: center; gap: 12px;">
-        <span style="font-size: 20px;">⚠️</span>
-        <span><b>Gagal!</b> Harap masukkan URL GAS yang valid.</span>
-      </div>
-    `;
-    document.body.appendChild(errorNotif);
-
-    // Hilangkan notifikasi error otomatis setelah 3 detik (tanpa refresh)
-    setTimeout(() => {
-      if (document.getElementById('gas-error-notif')) {
-        document.getElementById('gas-error-notif').remove();
-      }
-    }, 3000);
+    showCustomToastNotification("⚠️ Harap masukkan URL GAS yang valid!", "#f43f5e");
   }
 }
+
+// Helper Toast Notifikasi Custom Melayang dengan Spinner Muter
+function showCustomToastNotification(message, borderColor) {
+  const existingNotif = document.getElementById('gas-toast-notif');
+  if (existingNotif) existingNotif.remove();
+
+  const notif = document.createElement('div');
+  notif.id = 'gas-toast-notif';
+  notif.innerHTML = `
+    <div style="position: fixed; top: 25px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); border: 2px solid ${borderColor}; color: #f8fafc; padding: 14px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 2147483647; font-family: monospace; font-size: 13.5px; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(8px); animation: fadeInDown 0.3s ease;">
+      <div class="modern-spinner"></div>
+      <span>${message}</span>
+    </div>
+  `;
+  document.body.appendChild(notif);
+
+  setTimeout(() => {
+    if (document.getElementById('gas-toast-notif')) {
+      document.getElementById('gas-toast-notif').remove();
+    }
+  }, 3000);
+}
+
+// Logika Auto-Bypass Layar Awal Setelah Refresh Setting
+document.addEventListener('DOMContentLoaded', () => {
+  const isBypass = localStorage.getItem('GUDANG_REFRESH_BYPASS');
+  if (isBypass === 'true') {
+    // Hapus flag bypass agar tidak memicu bypass permanen
+    localStorage.removeItem('GUDANG_REFRESH_BYPASS');
+
+    // Sembunyikan Gerbang Tap to Enter & Boot Screen
+    const gate = document.getElementById('tap-to-enter-gate');
+    const boot = document.getElementById('boot-screen');
+    
+    if (gate) gate.style.display = 'none';
+    if (boot) boot.style.display = 'none';
+
+    // Munculkan kontainer utama & aktifkan teks berputar
+    const mainContainer = document.querySelector('.container');
+    if (mainContainer) mainContainer.classList.add('run-animation');
+    if (typeof initTextFadeRotator === 'function') initTextFadeRotator();
+
+    // Berikan konfirmasi visual bawaan
+    setTimeout(() => {
+      if (typeof showToast === 'function') {
+        showToast("Backend GAS Baru Berhasil Terhubung & Siap!", "⚡");
+      }
+    }, 400);
+  }
+});
