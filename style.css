@@ -528,5 +528,23 @@ button:not(#submitBtn) {
 @keyframes spin {
   100% { transform: rotate(360deg); }
 }
+/* Styling Tombol Header Modern dengan FontAwesome */
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;                  /* Jarak antara ikon dan teks */
+  padding: 6px 12px;         /* Ukuran area klik tombol */
+  font-size: 13px;           /* Ukuran font teks */
+  font-weight: 500;
+  border-radius: 8px;        /* Sudut membulat modern */
+  line-height: 1;            /* Memastikan teks rata tengah secara vertikal */
+}
 
+/* Ukuran dan Posisi Ikon */
+.btn-action i {
+  font-size: 14px;           /* Ukuran ikon pas dengan teks */
+  display: inline-block;
+  vertical-align: middle;
+}
 
