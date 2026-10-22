@@ -813,7 +813,7 @@ function simpanGasUrl() {
     tutupModalGas();
 
     // Tampilkan Toast Notifikasi Custom di Tengah Atas
-    showCustomToastNotification("✅ URL GAS Berhasil Diperbarui! Memuat ulang...", "#38bdf8");
+    showCustomToastNotification("Menyimpan URL GAS & Memuat Ulang...", "#38bdf8");
 
     // BERI JEDA WAKTU (DELAY) 1.5 DETIK SEBELUM REFRESH
     // Ini bikin animasi toast muncul sempurna dulu di tengah, baru halaman reload.
@@ -905,7 +905,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Berikan konfirmasi visual bawaan
     setTimeout(() => {
       if (typeof showToast === 'function') {
-        showToast("Backend GAS Baru Berhasil Terhubung & Siap!", "⚡");
+        showToast("Sistem Siap! Database GAS Berhasil Diperbarui.", "✅");
       }
     }, 400);
   }
