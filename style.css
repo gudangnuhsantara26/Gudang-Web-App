@@ -194,7 +194,7 @@ textarea:focus {
   box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
 }
 /* ==========================================================================
-   ANIMATED GRADIENT BORDER BUTTON (Gaya ala Video Shorts)
+   ANIMATED GRADIENT BORDER BUTTON (SMOOTH GPU OPTIMIZED)
    ========================================================================== */
 
 .btn-process-glow {
@@ -206,22 +206,22 @@ textarea:focus {
   font-size: 15px !important;
   font-weight: 600 !important;
   color: #ffffff !important;
-  background: #090d16 !important; /* Latar belakang gelap pekat */
+  background: #090d16 !important;
   border: none !important;
-  border-radius: 50px !important; /* Bentuk lonjong kapsul mulus */
+  border-radius: 50px !important;
   cursor: pointer !important;
   overflow: hidden !important;
-  transition: all 0.3s ease !important;
+  transform: translateZ(0); /* Memicu akselerasi hardware GPU agar tidak patah-patah */
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
   
-  /* Posisi rata tengah sempurna & ukuran pas */
   width: auto !important;
-  min-width: 220px !important;
+  min-width: 160px !important;
   max-width: 100% !important;
   margin: 16px auto !important;
 }
 
-/* Garis Cahaya Gradasi Berputar di Pinggiran Border */
+/* Garis Cahaya Gradasi Berputar dengan Performa Tinggi */
 .btn-process-glow::before {
   content: '';
   position: absolute;
@@ -230,23 +230,24 @@ textarea:focus {
   width: 200%;
   height: 200%;
   background: conic-gradient(
-    transparent,
-    transparent,
-    transparent,
-    #34d399,
-    #ffffff,
-    #10b981
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    transparent 270deg,
+    #34d399 315deg,
+    #ffffff 340deg,
+    #34d399 360deg
   );
   animation: rotateBorder 3s linear infinite;
+  will-change: transform; /* Memberitahu browser agar animasi di-handle GPU */
   z-index: 1;
 }
 
-/* Bagian Dalam Tombol (Tetap Gelap Elegan, Tidak Penuh Warna) */
+/* Bagian Dalam Tombol */
 .btn-process-glow::after {
   content: '';
   position: absolute;
   inset: 2px;
-  background: #0b1329 !important; /* Warna dalam tombol konsisten */
+  background: #0b1329 !important;
   border-radius: 48px !important;
   z-index: 2;
   transition: background 0.3s ease;
@@ -259,38 +260,59 @@ textarea:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 12px 28px;
   width: 100%;
   height: 100%;
-  color: #ffffff;
+  padding: 12px 24px;
 }
 
 #btnText {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  color: #ffffff;
 }
 
 #btnText i {
-  font-size: 15px;
+  font-size: 14px;
   color: #34d399;
   transition: transform 0.3s ease;
 }
 
-@keyframes rotateBorder {
+/* Spinner Loading */
+#btnSpinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #34d399;
+  border-radius: 50%;
+  animation: spinLoading 0.8s linear infinite;
+  margin-right: 6px;
+}
+
+@keyframes spinLoading {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-/* Efek saat Di-Hover */
+@keyframes rotateBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover & Active States yang Halus */
 .btn-process-glow:hover {
-  transform: translateY(-2px) !important;
+  transform: translateY(-2px) translateZ(0) !important;
   box-shadow: 0 0 25px rgba(52, 211, 153, 0.4) !important;
 }
 
 .btn-process-glow:hover::after {
-  background: #0f1a36 !important; /* Sedikit lebih terang saat di-hover */
+  background: #0f1a36 !important;
 }
 
 .btn-process-glow:hover #btnText i {
@@ -298,7 +320,7 @@ textarea:focus {
 }
 
 .btn-process-glow:active {
-  transform: translateY(0) scale(0.97) !important;
+  transform: translateY(0) scale(0.97) translateZ(0) !important;
 }
 
 /* DEVOPS TERMINAL LOG STYLE */
