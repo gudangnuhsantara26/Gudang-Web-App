@@ -327,7 +327,7 @@ async function processData() {
   
   if (btn) btn.disabled = false;
   if (btnSpinner) btnSpinner.style.display = 'none';
-  if (btnText) btnText.innerText = '⚡ Tarik & Proses Data Sekarang (Ctrl + Enter)';
+  if (btnText) btnText.innerHTML = '<i class="fa-solid fa-bolt-lightning"></i> Proses';
 }
 
 function showCustomAlert(message, downloadUrl) {
