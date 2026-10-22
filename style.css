@@ -281,7 +281,7 @@ textarea:focus {
 
 /* Spinner Loading */
 #btnSpinner {
-  display: inline-block;
+  display: none !important; /* Kunci utama: Sembunyi saat standby */
   width: 16px;
   height: 16px;
   border: 2px solid rgba(255, 255, 255, 0.3);
