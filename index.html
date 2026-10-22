@@ -2,6 +2,7 @@
 <html>
 <head>
   <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <meta name="theme-color" content="#0f172a">
   <meta charset="utf-8">
   <title>Gudang NM - Sistem Manajemen Gudang Online</title>
@@ -94,13 +95,13 @@
         <h2 style="margin: 0; color: #f8fafc; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.5px;">Nuhsantara Merchandise</h2>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button onclick="refreshAplikasi()" title="Refresh Data" style="background: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s;">
-          🔄 Refresh
-        </button>
-        <button onclick="bukaModalGas()" title="Pengaturan" style="background: #1e293b; color: #f43f5e; border: 1px solid #f43f5e; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s;">
-          ⚙️ Setting
-        </button>
-      </div>
+  <button class="btn-action" onclick="refreshAplikasi()">
+    <i class="fa-solid fa-rotate-right"></i> Refresh
+  </button>
+  <button class="btn-action" onclick="bukaModalGas()">
+    <i class="fa-solid fa-gear"></i> Setting
+  </button>
+</div>
     </div>
 
     <!-- 1. ENTERPRISE STATUS BAR -->
