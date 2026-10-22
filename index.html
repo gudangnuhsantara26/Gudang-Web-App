@@ -418,18 +418,41 @@ function runBootSequence() {
     setInterval(updateClock, 1000);
 
     function showToast(message, icon = "🚀") {
-      const container = document.getElementById("toast-container");
-      if (!container) return;
+  const container = document.getElementById("toast-container");
+  if (!container) return;
 
-      const toast = document.createElement("div");
-      toast.className = "toast-item";
-      toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
-      container.appendChild(toast);
+  const toast = document.createElement("div");
+  toast.className = "toast-item";
+  
+  // Styling posisi di tengah atas layar
+  toast.style.cssText = `
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2147483647;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid #38bdf8;
+    color: #f8fafc;
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    font-family: monospace;
+    font-size: 13px;
+    backdrop-filter: blur(8px);
+  `;
+  
+  toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+  container.appendChild(toast);
 
-      setTimeout(() => {
-        toast.remove();
-      }, 3000);
-    }
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
 
     window.addEventListener('keydown', (e) => {
       e.ctrlKey && e.key === 'Enter' && (() => {
