@@ -182,11 +182,16 @@
         <textarea id="shopeeData" placeholder="Paste data unduhan Shopee & Tiktok Shop di sini tanpa batas baris..."></textarea>
       </div>
       
-      <button id="submitBtn" onclick="processData()">
-        <div class="spinner" id="btnSpinner"></div>
-        <span id="btnText">⚡ Tarik & Proses Data Sekarang (Ctrl + Enter)</span>
-      </button>
-    </div>
+   <button id="submitBtn" class="btn-process-glow" onclick="processData()">
+  <!-- Border Stream Effect Element -->
+  <span class="btn-content">
+    <div class="spinner" id="btnSpinner"></div>
+    <span id="btnText">
+      <i class="fa-solid fa-bolt-lightning"></i>
+      Tarik & Proses Data Sekarang (Ctrl + Enter)
+    </span>
+  </span>
+</button>
 
    <!-- 5. DEVOPS TERMINAL LOG CONTAINER -->
 <div id="log" style="text-align: left !important;">
