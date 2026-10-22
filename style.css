@@ -265,24 +265,28 @@ button:not(#submitBtn) {
   align-items: center;
   gap: 10px;
   pointer-events: none;
+  width: max-content; /* Biar lebarnya fleksibel mengikuti isi teks */
+  max-width: 90vw;    /* Biar gak melebihi layar HP/Monitor */
 }
 
-
 .toast-item {
-  background: var(--card-bg);
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  color: var(--text-color);
-  padding: 12px 18px;
+  background: var(--card-bg, #0f172a);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: var(--text-color, #f8fafc);
+  padding: 10px 20px;
   border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   font-size: 13px;
   font-weight: 500;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   backdrop-filter: blur(8px);
+  white-space: nowrap; /* BIKIN TEKS SATU BARIS & GAK KEPOTONG/TUMPUK */
   animation: fadeInDown 0.3s ease-out, fadeOutToast 0.3s ease-in 2.7s forwards;
 }
+
 
 /* Ganti nama & isi keyframes-nya */
 @keyframes fadeInDown {
