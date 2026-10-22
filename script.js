@@ -828,19 +828,32 @@ function simpanGasUrl() {
 
 // Helper Toast Notifikasi Custom Melayang
 function showCustomToastNotification(message, borderColor) {
-  const existingNotif = document.getElementById('gas-toast-notif');
-  if (existingNotif) existingNotif.remove();
+  // 1. Cek apakah container khusus toast sudah ada di body, kalau belum kita buatkan
+  let container = document.getElementById('global-toast-wrapper');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'global-toast-wrapper';
+    // Pakai flexbox centang tengah layar atas secara mutlak
+    container.style.cssText = `
+      position: fixed;
+      top: 25px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2147483647;
+      pointer-events: none;
+    `;
+    document.body.appendChild(container);
+  }
 
+  // 2. Bersihkan toast lama jika ada
+  container.innerHTML = '';
+
+  // 3. Buat elemen toast-nya
   const notif = document.createElement('div');
-  notif.id = 'gas-toast-notif';
-  
-  // PERBAIKAN: Pasang left: 50% + transform: translateX(-50%) + white-space: nowrap
   notif.style.cssText = `
-    position: fixed;
-    top: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2147483647;
     background: rgba(15, 23, 42, 0.98);
     border: 2px solid ${borderColor};
     color: #f8fafc;
@@ -855,19 +868,19 @@ function showCustomToastNotification(message, borderColor) {
     backdrop-filter: blur(8px);
     white-space: nowrap;
     animation: fadeInDown 0.3s ease;
+    pointer-events: auto;
   `;
 
   notif.innerHTML = `
     <div class="modern-spinner"></div>
     <span>${message}</span>
   `;
-  
-  document.body.appendChild(notif);
 
+  container.appendChild(notif);
+
+  // 4. Hapus otomatis setelah 3 detik
   setTimeout(() => {
-    if (document.getElementById('gas-toast-notif')) {
-      document.getElementById('gas-toast-notif').remove();
-    }
+    if (notif) notif.remove();
   }, 3000);
 }
 // Logika Auto-Bypass Layar Awal Setelah Refresh Setting
