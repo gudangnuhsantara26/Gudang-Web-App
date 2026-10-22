@@ -194,30 +194,34 @@ textarea:focus {
   box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
 }
 /* ==========================================================================
-   ANIMATED GLOWING BORDER STREAM BUTTON (.btn-process-glow)
+   TOMBOL UTAMA: CENTERED & HIGH-CONTRAST GLOWING BORDER
    ========================================================================== */
 
 .btn-process-glow {
   position: relative !important;
-  display: inline-flex !important;
+  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   padding: 2px !important;
   font-size: 14px !important;
   font-weight: 600 !important;
   color: #ffffff !important;
-  background: #0f172a !important;
+  background: #022c22 !important; /* Background gelap agar kontras */
   border: none !important;
   border-radius: 12px !important;
   cursor: pointer !important;
   overflow: hidden !important;
   transition: all 0.4s ease !important;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25) !important;
-  width: fit-content !important;
-  margin: 14px auto !important;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3) !important;
+  
+  /* KUNCI POSISI TENGAH SEMPURNA */
+  width: auto !important;
+  min-width: 320px !important;    /* Sesuaikan lebar minimal tombol */
+  max-width: 100% !important;
+  margin: 16px auto !important;    /* Auto kiri-kanan bikin pas di tengah */
 }
 
-/* Garis Berjalan / Border Stream Effect */
+/* Garis Berjalan / Border Stream (Kita bikin warna putih terang & hijau neon agar tajam) */
 .btn-process-glow::before {
   content: '';
   position: absolute;
@@ -229,32 +233,33 @@ textarea:focus {
     transparent,
     transparent,
     transparent,
-    #10b981
+    #34d399, /* Hijau neon sangat terang */
+    #ffffff  /* Aksen putih biar kelihatan menyala tajam */
   );
-  animation: rotateBorder 3s linear infinite;
+  animation: rotateBorder 2.5s linear infinite;
   z-index: 1;
 }
 
-/* Inner Background (Solid saat biasa, menyala saat hover) */
+/* Inner Background Tombol */
 .btn-process-glow::after {
   content: '';
   position: absolute;
   inset: 2px;
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  background: linear-gradient(135deg, #065f46 0%, #064e3b 100%);
   border-radius: 10px;
   z-index: 2;
-  transition: background 0.4s ease, opacity 0.4s ease;
+  transition: background 0.4s ease;
 }
 
-/* Content Wrapper */
+/* Wrapper Konten Teks & Ikon */
 .btn-content {
   position: relative;
   z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 24px;
+  gap: 10px;
+  padding: 12px 24px;
   width: 100%;
   height: 100%;
   color: #ffffff;
@@ -267,7 +272,7 @@ textarea:focus {
 }
 
 #btnText i {
-  font-size: 15px;
+  font-size: 16px;
   color: #34d399;
   transition: transform 0.3s ease, color 0.3s ease;
 }
@@ -277,15 +282,15 @@ textarea:focus {
   100% { transform: rotate(360deg); }
 }
 
-/* Hover & Active State */
+/* Hover & Active States */
 .btn-process-glow:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 0 25px rgba(16, 185, 129, 0.6), 
-              0 0 40px rgba(16, 185, 129, 0.3) !important;
+  box-shadow: 0 0 30px rgba(52, 211, 153, 0.6), 
+              0 0 50px rgba(16, 185, 129, 0.4) !important;
 }
 
 .btn-process-glow:hover::after {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
 }
 
 .btn-process-glow:hover #btnText i {
