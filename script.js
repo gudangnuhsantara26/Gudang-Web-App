@@ -825,7 +825,7 @@ function simpanGasUrl() {
   }
 }
 
-// Helper Toast Notifikasi Custom Melayang dengan Spinner Muter
+// Helper Toast Notifikasi Custom Melayang
 function showCustomToastNotification(message, borderColor) {
   const existingNotif = document.getElementById('gas-toast-notif');
   if (existingNotif) existingNotif.remove();
@@ -833,13 +833,34 @@ function showCustomToastNotification(message, borderColor) {
   const notif = document.createElement('div');
   notif.id = 'gas-toast-notif';
   
-  // Posisikan tepat di tengah atas (top: 25px, left: 50%)
-  notif.innerHTML = `
-    <div style="position: fixed; top: 25px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); border: 2px solid ${borderColor}; color: #f8fafc; padding: 14px 26px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 2147483647; font-family: monospace; font-size: 13.5px; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(8px); animation: fadeInDown 0.3s ease;">
-      <div class="modern-spinner"></div>
-      <span>${message}</span>
-    </div>
+  // PERBAIKAN: Pasang left: 50% + transform: translateX(-50%) + white-space: nowrap
+  notif.style.cssText = `
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2147483647;
+    background: rgba(15, 23, 42, 0.98);
+    border: 2px solid ${borderColor};
+    color: #f8fafc;
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    font-family: monospace;
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(8px);
+    white-space: nowrap;
+    animation: fadeInDown 0.3s ease;
   `;
+
+  notif.innerHTML = `
+    <div class="modern-spinner"></div>
+    <span>${message}</span>
+  `;
+  
   document.body.appendChild(notif);
 
   setTimeout(() => {
@@ -848,7 +869,6 @@ function showCustomToastNotification(message, borderColor) {
     }
   }, 3000);
 }
-
 // Logika Auto-Bypass Layar Awal Setelah Refresh Setting
 document.addEventListener('DOMContentLoaded', () => {
   const isBypass = localStorage.getItem('GUDANG_REFRESH_BYPASS');
