@@ -215,31 +215,31 @@ textarea:focus {
   transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
   
-  width: 100% !important;
-  max-width: 280px !important;
+  /* Lebar sesuai keinginanmu (tidak full/panjang) */
+  width: auto !important;
+  min-width: 160px !important;
+  max-width: 100% !important;
   margin: 16px auto !important;
   min-height: 48px !important;
   box-sizing: border-box !important;
 }
 
-/* Garis Cahaya Gradasi Berputar Full Keliling */
+/* Garis Cahaya Gradasi Berputar untuk Tombol Kapsul */
 .btn-process-glow::before {
   content: '';
   position: absolute;
-  /* Gunakan persentase absolute yang pas agar tidak kepotong berlebihan */
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  width: 200%;
-  height: 200%;
+  /* Gunakan ukuran lebih besar dan center persis supaya muternya pas di border kapsul */
+  top: -150%;
+  left: -150%;
+  right: -150%;
+  bottom: -150%;
   background: conic-gradient(
     from 0deg at 50% 50%,
     transparent 0deg,
-    transparent 240deg,
-    #34d399 300deg,
-    #ffffff 340deg,
-    #34d399 360deg
+    transparent 280deg,
+    #34d399 330deg,
+    #ffffff 350deg,
+    transparent 360deg
   );
   animation: rotateBorder 3s linear infinite;
   will-change: transform;
@@ -249,7 +249,7 @@ textarea:focus {
 .btn-process-glow::after {
   content: '';
   position: absolute;
-  inset: 2px;
+  inset: 1.5px;
   background: #0b1329 !important;
   border-radius: 48px !important;
   z-index: 2;
