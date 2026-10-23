@@ -231,12 +231,14 @@ async function processData() {
 
   if (btn) btn.disabled = true;
   if (btnSpinner) btnSpinner.style.display = 'block';
+  
+  // Hanya menampilkan spinner saja di dalam tombol tanpa teks panjang
   if (btnText) btnText.innerHTML = `
-    <div style="display: inline-flex; align-items: center; gap: 8px;">
+    <span style="display: inline-flex; align-items: center; justify-content: center;">
       <div class="modern-spinner"></div>
-      <span>[ ••• ] Sedang Memproses & Sinkronisasi<span class="bouncing-dots"><span>.</span><span>.</span><span>.</span></span></span>
-    </div>
+    </span>
   `;
+
   
   if (logDiv) logDiv.style.display = 'block';
   if (logTextSpan) logTextSpan.innerText = '[' + new Date().toLocaleTimeString() + '] 🔄 Menghubungkan ke Cloud Database Google Drive...';
