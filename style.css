@@ -688,15 +688,13 @@ textarea:focus {
   left: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  background: rgba(5, 10, 20, 0.85) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  display: none;
-  justify-content: center !important;
-  align-items: center !important;
+  background: transparent !important; /* Menghilangkan background hitam transparan total */
+  backdrop-filter: none !important; /* Menghilangkan efek blur di luar modal */
+  -webkit-backdrop-filter: none !important;
+  display: none; /* Default tersembunyi */
   z-index: 2147483647 !important;
-  padding: 20px !important;
   box-sizing: border-box !important;
+  pointer-events: none !important; /* Supaya klik di luar modal bisa menembus ke halaman utama */
 }
 
 @keyframes fadeInModal {
@@ -705,18 +703,23 @@ textarea:focus {
 }
 
 .glass-modal-content {
-  background: rgba(15, 23, 42, 0.95) !important;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important; /* Presisi pas di tengah layar */
+  background: rgba(15, 23, 42, 0.98) !important; /* Background dalam modal tetap elegan dan solid */
   border: 1px solid rgba(56, 189, 248, 0.4) !important;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(56, 189, 248, 0.25) !important;
   border-radius: 20px !important;
-  width: 100% !important;
+  width: 90% !important;
   max-width: 420px !important;
   max-height: 90vh !important;
   overflow-y: auto !important;
   color: #f8fafc !important;
   font-family: inherit !important;
-  margin: auto !important;
+  pointer-events: auto !important; /* Mengaktifkan kembali klik di dalam kotak modal */
 }
+
 .glass-modal-header {
   display: flex !important;
   justify-content: space-between !important;
