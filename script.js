@@ -188,7 +188,7 @@ function updateRowCounter() {
   });
 
   if (shopeeCount > 0 || tiktokCount > 0) {
-    rowCounter.innerHTML = `📊 ${totalLines.toLocaleString()} baris <span style="font-size: 10px; opacity: 0.85; margin-left: 4px; font-weight: normal;">(Shopee: ${shopeeCount} \vert{} TikTok:${tiktokCount})</span>`;
+    rowCounter.innerHTML = `📊 ${totalLines.toLocaleString()} baris <span style="font-size: 10px; opacity: 0.85; margin-left: 4px; font-weight: normal;">(Shopee: ${shopeeCount} | TikTok:${tiktokCount})</span>`;
   } else {
     rowCounter.innerText = `📊 ${totalLines.toLocaleString()} baris data`;
   }
