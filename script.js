@@ -232,13 +232,12 @@ async function processData() {
   // --- SAAT TOMBOL DIKLIK (LOADING) ---
   if (btn) btn.disabled = true;
   
-  // Tampilkan spinner bawaan HTML
-  if (btnSpinner) btnSpinner.style.display = 'inline-block';
+  // Tampilkan spinner YouTube secara paksa pakai !important
+  if (btnSpinner) btnSpinner.style.setProperty('display', 'inline-block', 'important');
   
-  // Sembunyikan teks "Proses" dan ikon petir secara total menggunakan !important
+  // Sembunyikan teks "Proses" dan ikon petir secara total
   if (btnText) btnText.style.setProperty('display', 'none', 'important');
 
-  
   if (logDiv) logDiv.style.display = 'block';
   if (logTextSpan) logTextSpan.innerText = '[' + new Date().toLocaleTimeString() + '] 🔄 Menghubungkan ke Cloud Database Google Drive...';
   if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
@@ -329,17 +328,15 @@ async function processData() {
   // --- KEMBALI KE SEMULA SAAT SELESAI / ERROR ---
   if (btn) btn.disabled = false;
   
-  // Sembunyikan spinner
-  if (btnSpinner) btnSpinner.style.display = 'none';
+  // Sembunyikan spinner dengan paksa
+  if (btnSpinner) btnSpinner.style.setProperty('display', 'none', 'important');
   
   // Tampilkan kembali teks tombol dan ikon petir
   if (btnText) {
-    btnText.style.setProperty('display', 'inline', 'important');
+    btnText.style.setProperty('display', 'inline-flex', 'important');
     btnText.innerHTML = '<i class="fa-solid fa-bolt-lightning"></i> Proses';
   }
 }
-
-
 
 
 function showCustomAlert(message, downloadUrl) {
