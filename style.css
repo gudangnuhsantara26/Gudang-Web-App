@@ -211,7 +211,7 @@ textarea:focus {
   border-radius: 50px !important;
   cursor: pointer !important;
   overflow: hidden !important;
-  transform: translateZ(0); /* Memicu akselerasi hardware GPU agar tidak patah-patah */
+  transform: translateZ(0); 
   transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
   
@@ -219,6 +219,7 @@ textarea:focus {
   min-width: 160px !important;
   max-width: 100% !important;
   margin: 16px auto !important;
+  min-height: 48px !important;
 }
 
 /* Garis Cahaya Gradasi Berputar dengan Performa Tinggi */
@@ -238,7 +239,7 @@ textarea:focus {
     #34d399 360deg
   );
   animation: rotateBorder 3s linear infinite;
-  will-change: transform; /* Memberitahu browser agar animasi di-handle GPU */
+  will-change: transform;
   z-index: 1;
 }
 
@@ -279,19 +280,19 @@ textarea:focus {
   transition: transform 0.3s ease;
 }
 
-/* Spinner Loading */
-#btnSpinner {
-  display: none !important; /* Kunci utama: Sembunyi saat standby */
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #34d399;
-  border-radius: 50%;
-  animation: spinLoading 0.8s linear infinite;
-  margin-right: 6px;
+/* Spinner & Standby Config */
+.spinner, #btnSpinner {
+  display: none !important;
+  width: 20px !important;
+  height: 20px !important;
+  border: 2.5px solid rgba(255, 255, 255, 0.25) !important;
+  border-top-color: #34d399 !important;
+  border-radius: 50% !important;
+  animation: youtubeSpinnerMotion 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) infinite !important;
+  margin: 0 auto !important;
 }
 
-@keyframes spinLoading {
+@keyframes youtubeSpinnerMotion {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
@@ -304,7 +305,6 @@ textarea:focus {
     transform: rotate(360deg);
   }
 }
-
 
 /* Hover & Active States yang Halus */
 .btn-process-glow:hover {
@@ -339,7 +339,7 @@ textarea:focus {
     overflow-y: auto;
     box-sizing: border-box;
     text-align: left !important;
-    display: flex;             /* Menggunakan flexbox agar elemen di dalamnya sejajar */
+    display: flex;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -351,7 +351,7 @@ textarea:focus {
 
 .terminal-cursor {
     display: inline-block;
-    margin-left: 4px;          /* Jarak dikit dari teks biar gak nempel banget */
+    margin-left: 4px;
 }
 
 /* TOAST NOTIFICATION CONTAINER */
@@ -366,8 +366,8 @@ textarea:focus {
   align-items: center;
   gap: 10px;
   pointer-events: none;
-  width: max-content; /* Biar lebarnya fleksibel mengikuti isi teks */
-  max-width: 90vw;    /* Biar gak melebihi layar HP/Monitor */
+  width: max-content;
+  max-width: 90vw;
 }
 
 .toast-item {
@@ -384,12 +384,10 @@ textarea:focus {
   justify-content: center;
   gap: 10px;
   backdrop-filter: blur(8px);
-  white-space: nowrap; /* BIKIN TEKS SATU BARIS & GAK KEPOTONG/TUMPUK */
+  white-space: nowrap;
   animation: fadeInDown 0.3s ease-out, fadeOutToast 0.3s ease-in 2.7s forwards;
 }
 
-
-/* Ganti nama & isi keyframes-nya */
 @keyframes fadeInDown {
   from {
     transform: translateY(-20px);
@@ -400,7 +398,6 @@ textarea:focus {
     opacity: 1;
   }
 }
-
 
 @keyframes fadeOutToast {
   to { opacity: 0; visibility: hidden; }
@@ -540,9 +537,8 @@ textarea:focus {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-/* ==========================================
-   ✨ ANIMASI MASUK BERURUTAN (STAGGERED) - FINAL FIX
-   ========================================== */
+
+/* ANIMASI MASUK BERURUTAN */
 @keyframes smoothEntrance {
   0% { opacity: 0; transform: translateY(35px) scale(0.96); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -552,6 +548,7 @@ textarea:focus {
   0% { opacity: 0; transform: translateY(15px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
 .container {
   opacity: 0;
 }
@@ -560,17 +557,17 @@ textarea:focus {
   animation: smoothEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
-/* Efek muncul berurutan satu persatu dari atas ke bawah */
 .container.run-animation .anim-1 { animation: contentFadeIn 0.4s ease 0.1s forwards !important; opacity: 0; }
 .container.run-animation .anim-2 { animation: contentFadeIn 0.4s ease 0.22s forwards !important; opacity: 0; }
 .container.run-animation .anim-3 { animation: contentFadeIn 0.4s ease 0.34s forwards !important; opacity: 0; }
 .container.run-animation .anim-4 { animation: contentFadeIn 0.4s ease 0.46s forwards !important; opacity: 0; }
 .container.run-animation .anim-5 { animation: contentFadeIn 0.4s ease 0.58s forwards !important; opacity: 0; }
-/* Perintah geser tombol switch saat mode light */
+
 [data-theme="light"] #themeSwitchThumb {
   transform: translateX(26px) !important;
   background: #f59e0b !important;
 }
+
 @keyframes continuousFlow {
   0% { width: 0% !important; }
   100% { width: 100% !important; }
@@ -586,7 +583,6 @@ textarea:focus {
 }
 
 #boot-progress-fill.running {
-  /* Durasi kita set pas 29 detik sesuai total durasi step kamu */
   animation: continuousFlow 29s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
@@ -629,6 +625,7 @@ textarea:focus {
 @keyframes spin {
   100% { transform: rotate(360deg); }
 }
+
 /* Styling Tombol Header Modern & Glassmorphism */
 .btn-action {
   display: inline-flex;
@@ -648,49 +645,30 @@ textarea:focus {
   backdrop-filter: blur(4px);
 }
 
-/* Efek HOVER Canggih (Glow + Lift Up) */
 .btn-action:hover {
-  background: rgba(56, 189, 248, 0.15);            /* Aksen biru lembut */
-  border-color: #38bdf8;                            /* Border biru menyala */
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
   color: #ffffff;
-  transform: translateY(-2px);                     /* Efek tombol naik sedikit */
-  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);  /* Efek glow biru */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
 }
 
-/* Efek saat tombol DIKLIK (Active state) */
 .btn-action:active {
-  transform: translateY(0) scale(0.96);            /* Efek membal saat ditekan */
+  transform: translateY(0) scale(0.96);
   box-shadow: 0 2px 6px rgba(56, 189, 248, 0.2);
 }
 
-/* Styling Ikon FontAwesome */
 .btn-action i {
   font-size: 13px;
   color: #38bdf8;
   transition: transform 0.3s ease;
 }
 
-/* Animasi khusus ikon pas tombol di-hover */
 .btn-action:hover .fa-rotate-right {
-  transform: rotate(180deg);                        /* Ikon refresh muter pas di-hover */
+  transform: rotate(180deg);
 }
 
 .btn-action:hover .fa-gear {
-  transform: rotate(45deg);                         /* Ikon gear geser dikit pas di-hover */
-}
-/* Styling Spinner YouTube yang Pas dengan HTML kamu */
-.spinner, #btnSpinner {
-  display: none !important; /* Standby tersembunyi */
-  width: 20px !important;
-  height: 20px !important;
-  border: 2.5px solid rgba(255, 255, 255, 0.25) !important;
-  border-top-color: #34d399 !important; /* Hijau neon menyala ala YouTube */
-  border-radius: 50% !important;
-  animation: youtubeSpinnerMotion 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) infinite !important;
-  margin: 0 auto !important;
+  transform: rotate(45deg);
 }
 
-@keyframes youtubeSpinnerMotion {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
