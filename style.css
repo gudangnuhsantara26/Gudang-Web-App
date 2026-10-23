@@ -296,6 +296,16 @@ textarea:focus {
   100% { transform: rotate(360deg); }
 }
 
+@keyframes rotateBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 /* Hover & Active States yang Halus */
 .btn-process-glow:hover {
   transform: translateY(-2px) translateZ(0) !important;
