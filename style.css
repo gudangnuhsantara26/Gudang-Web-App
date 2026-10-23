@@ -674,4 +674,196 @@ textarea:focus {
 .btn-action:hover .fa-gear {
   transform: rotate(45deg);
 }
+/* ==========================================
+   💎 MODAL DEVELOPER PROFILE (GLASSMORPHISM)
+   ========================================== */
+.glass-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(5, 10, 20, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 99999 !important;
+  padding: 16px !important;
+  box-sizing: border-box !important;
+  animation: fadeInModal 0.3s ease !important;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.glass-modal-content {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.2) !important;
+  border-radius: 20px !important;
+  width: 100% !important;
+  max-width: 440px !important;
+  overflow: hidden !important;
+  color: #f8fafc !important;
+  font-family: inherit !important;
+}
+
+.glass-modal-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 16px 20px !important;
+  background: rgba(30, 41, 59, 0.6) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.glass-modal-header h3 {
+  margin: 0 !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  color: #38bdf8 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.btn-close-modal {
+  background: transparent !important;
+  border: none !important;
+  color: #94a3b8 !important;
+  font-size: 22px !important;
+  cursor: pointer !important;
+  transition: color 0.2s !important;
+}
+
+.btn-close-modal:hover {
+  color: #f43f5e !important;
+}
+
+.glass-modal-body {
+  padding: 24px 20px !important;
+  text-align: center !important;
+}
+
+.dev-avatar-container {
+  display: flex !important;
+  justify-content: center !important;
+  margin-bottom: 12px !important;
+}
+
+.dev-avatar-glow {
+  width: 70px !important;
+  height: 70px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #0284c7, #38bdf8) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  font-size: 32px !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.5) !important;
+  border: 2px solid #38bdf8 !important;
+}
+
+.dev-name {
+  margin: 8px 0 2px 0 !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.5px !important;
+}
+
+.dev-title {
+  margin: 0 0 12px 0 !important;
+  font-size: 13px !important;
+  color: #38bdf8 !important;
+  font-weight: 500 !important;
+}
+
+.dev-badge-group {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  margin-bottom: 16px !important;
+}
+
+.tech-badge {
+  padding: 4px 10px !important;
+  border-radius: 20px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #cbd5e1 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.tech-badge.active {
+  background: rgba(56, 189, 248, 0.15) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(56, 189, 248, 0.4) !important;
+}
+
+.dev-divider {
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent) !important;
+  margin: 16px 0 !important;
+}
+
+.dev-bio {
+  font-size: 12.5px !important;
+  line-height: 1.6 !important;
+  color: #94a3b8 !important;
+  margin-bottom: 20px !important;
+}
+
+.dev-stack {
+  display: flex !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+}
+
+.dev-stack span {
+  font-size: 11px !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  color: #e2e8f0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.glass-modal-footer {
+  padding: 12px 20px !important;
+  background: rgba(15, 23, 42, 0.5) !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.btn-action-close {
+  background: #1e293b !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 8px 18px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+.btn-action-close:hover {
+  background: #38bdf8 !important;
+  color: #0f172a !important;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4) !important;
+}
 
