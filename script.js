@@ -475,9 +475,15 @@ function initLastSync() {
 }
 
 document.addEventListener('DOMContentLoaded', initLastSync);
+function openDeveloperModal() { 
+  const modal = document.getElementById('developerModal'); 
+  if (modal) modal.style.display = 'flex'; 
+}
 
-function openGuideModal() { const modal = document.getElementById('guideModal'); if (modal) modal.style.display = 'flex'; }
-function closeGuideModal() { const modal = document.getElementById('guideModal'); if (modal) modal.style.display = 'none'; }
+function closeDeveloperModal() { 
+  const modal = document.getElementById('developerModal'); 
+  if (modal) modal.style.display = 'none'; 
+}
 
 function playSuccessSound() {
   try {
