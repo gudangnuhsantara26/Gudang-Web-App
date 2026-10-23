@@ -478,12 +478,12 @@ document.addEventListener('DOMContentLoaded', initLastSync);
 
 function openDeveloperModal() { 
   const modal = document.getElementById('developerModal'); 
-  if (modal) modal.style.display = 'flex'; 
+  if (modal) modal.style.setProperty('display', 'flex', 'important'); 
 }
 
 function closeDeveloperModal() { 
   const modal = document.getElementById('developerModal'); 
-  if (modal) modal.style.display = 'none'; 
+  if (modal) modal.style.setProperty('display', 'none', 'important'); 
 }
 
 function playSuccessSound() {
