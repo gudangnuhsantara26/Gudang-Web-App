@@ -704,12 +704,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     }
 });
-
 async function ambilDanPasteRekapan(btn) {
-  const originalText = btn ? btn.innerHTML : '⚡ Sync';
+  const originalText = '<i class="fa-solid fa-rotate"></i> Sync';
+  
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '⏳ Loading...';
+    // Pakai ikon fa-rotate + fa-spin biar berputar halus pas loading
+    btn.innerHTML = '<i class="fa-solid fa-rotate fa-spin"></i> Loading...';
   }
 
   try {
@@ -744,6 +745,7 @@ async function ambilDanPasteRekapan(btn) {
     }
   }
 }
+
 
 // ==========================================
 // 🕹️ FUNGSI TITLEBAR & MODAL SETTINGS DYNAMIC GAS
