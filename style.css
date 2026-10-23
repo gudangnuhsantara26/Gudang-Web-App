@@ -677,11 +677,12 @@ textarea:focus {
 /* ==========================================
    💎 MODAL DEVELOPER PROFILE (GLASSMORPHISM)
    ========================================== */
-/* Sembunyikan modal secara bawaan */
+/* Pastikan modal disembunyikan secara mutlak di awal */
 #developerModal {
-  display: none;
+  display: none !important;
 }
 
+/* Pastikan kelas overlay-nya diatur flex HANYA ketika dipanggil via JS */
 .glass-modal-overlay {
   position: fixed !important;
   top: 0 !important;
@@ -691,13 +692,12 @@ textarea:focus {
   background: rgba(5, 10, 20, 0.85) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  z-index: 2147483647 !important; /* Nilai z-index maksimal agar selalu di paling atas */
+  z-index: 2147483647 !important;
   padding: 20px !important;
   box-sizing: border-box !important;
-  overflow-y: auto !important; /* Agar bisa di-scroll jika layar kecil */
+  overflow-y: auto !important;
 }
 @keyframes fadeInModal {
   from { opacity: 0; transform: scale(0.95); }
