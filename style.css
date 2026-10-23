@@ -677,6 +677,11 @@ textarea:focus {
 /* ==========================================
    💎 MODAL DEVELOPER PROFILE (GLASSMORPHISM)
    ========================================== */
+/* Sembunyikan modal secara bawaan */
+#developerModal {
+  display: none;
+}
+
 .glass-modal-overlay {
   position: fixed !important;
   top: 0 !important;
@@ -686,7 +691,7 @@ textarea:focus {
   background: rgba(5, 10, 20, 0.75) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  display: flex !important;
+  /* HAPUS display: flex !important di sini */
   justify-content: center !important;
   align-items: center !important;
   z-index: 99999 !important;
@@ -865,8 +870,5 @@ textarea:focus {
   background: #38bdf8 !important;
   color: #0f172a !important;
   box-shadow: 0 0 15px rgba(56, 189, 248, 0.4) !important;
-}
-#developerModal {
-   display: none;
 }
 
