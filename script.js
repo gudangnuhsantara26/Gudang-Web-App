@@ -229,16 +229,10 @@ async function processData() {
     return;
   }
 
+  // --- BAGIAN LOADING (STATE AKTIF) ---
   if (btn) btn.disabled = true;
-  if (btnSpinner) btnSpinner.style.display = 'block';
-  
-  // Hanya menampilkan spinner saja di dalam tombol tanpa teks panjang
-  if (btnText) btnText.innerHTML = `
-    <span style="display: inline-flex; align-items: center; justify-content: center;">
-      <div class="modern-spinner"></div>
-    </span>
-  `;
-
+  if (btnSpinner) btnSpinner.style.display = 'inline-block'; // Tampilkan spinner tunggal
+  if (btnText) btnText.style.display = 'none'; // Sembunyikan teks "Proses" & ikon petir agar bersih
   
   if (logDiv) logDiv.style.display = 'block';
   if (logTextSpan) logTextSpan.innerText = '[' + new Date().toLocaleTimeString() + '] 🔄 Menghubungkan ke Cloud Database Google Drive...';
@@ -327,10 +321,15 @@ async function processData() {
     setTimeout(() => { showCustomAlert('Terjadi Kesalahan: ' + errorMessage, ''); }, 800);
   }
   
+  // --- KEMBALI KE STATE SEMULA (SELESAI / ERROR) ---
   if (btn) btn.disabled = false;
-  if (btnSpinner) btnSpinner.style.display = 'none';
-  if (btnText) btnText.innerHTML = '<i class="fa-solid fa-bolt-lightning"></i> Proses';
+  if (btnSpinner) btnSpinner.style.display = 'none'; // Sembunyikan spinner
+  if (btnText) {
+    btnText.style.display = 'inline-flex'; // Munculkan kembali teks
+    btnText.innerHTML = '<i class="fa-solid fa-bolt-lightning"></i> Proses'; // Set teks & ikon semula
+  }
 }
+
 
 function showCustomAlert(message, downloadUrl) {
   currentDownloadUrl = downloadUrl || "";
