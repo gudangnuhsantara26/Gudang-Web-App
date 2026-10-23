@@ -475,6 +475,7 @@ function initLastSync() {
 }
 
 document.addEventListener('DOMContentLoaded', initLastSync);
+
 function openDeveloperModal() { 
   const modal = document.getElementById('developerModal'); 
   if (modal) modal.style.display = 'flex'; 
