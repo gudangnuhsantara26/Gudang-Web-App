@@ -215,40 +215,41 @@ textarea:focus {
   transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
   
-  width: auto !important;
-  min-width: 160px !important;
-  max-width: 100% !important;
+  width: 100% !important;
+  max-width: 280px !important;
   margin: 16px auto !important;
   min-height: 48px !important;
+  box-sizing: border-box !important;
 }
 
-/* Garis Cahaya Gradasi Berputar dengan Performa Tinggi (Single Laser Border) */
+/* Garis Cahaya Gradasi Berputar Full Keliling */
 .btn-process-glow::before {
   content: '';
   position: absolute;
+  /* Gunakan persentase absolute yang pas agar tidak kepotong berlebihan */
   top: -50%;
   left: -50%;
+  right: -50%;
+  bottom: -50%;
   width: 200%;
   height: 200%;
   background: conic-gradient(
     from 0deg at 50% 50%,
     transparent 0deg,
-    transparent 330deg,    /* Dipersempit agar tidak tumpuk di atas-bawah */
-    #34d399 348deg,        /* Titik awal ekor hijau */
-    #ffffff 356deg,        /* Ujung kepala garis putih terang */
-    transparent 360deg     /* Putus bersih */
+    transparent 240deg,
+    #34d399 300deg,
+    #ffffff 340deg,
+    #34d399 360deg
   );
   animation: rotateBorder 3s linear infinite;
   will-change: transform;
   z-index: 1;
 }
 
-
-/* Bagian Dalam Tombol */
 .btn-process-glow::after {
   content: '';
   position: absolute;
-  inset: 1.5px;             /* Dibuat 1.5px agar garis border terlihat presisi & tajam */
+  inset: 2px;
   background: #0b1329 !important;
   border-radius: 48px !important;
   z-index: 2;
