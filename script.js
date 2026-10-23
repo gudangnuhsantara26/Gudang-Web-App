@@ -232,24 +232,22 @@ async function processData() {
   // --- SAAT TOMBOL DIKLIK (LOADING) ---
   if (btn) btn.disabled = true;
   
-  // Tampilkan spinner YouTube secara paksa pakai !important
   if (btnSpinner) btnSpinner.style.setProperty('display', 'inline-block', 'important');
-  
-  // Sembunyikan teks "Proses" dan ikon petir secara total
   if (btnText) btnText.style.setProperty('display', 'none', 'important');
 
+  // --- TERMINAL LOG DENGAN FONT AWESOME ICONS ---
   if (logDiv) logDiv.style.display = 'block';
-  if (logTextSpan) logTextSpan.innerText = '[' + new Date().toLocaleTimeString() + '] 🔄 Menghubungkan ke Cloud Database Google Drive...';
+  if (logTextSpan) logTextSpan.innerHTML = '[' + new Date().toLocaleTimeString() + '] <i class="fa-solid fa-network-wired" style="color: #22c55e; margin-right: 6px;"></i>Menghubungkan ke Cloud Database Google Drive...';
   if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
   
   await new Promise(resolve => setTimeout(resolve, 600));
   
-  if (logTextSpan) logTextSpan.innerText += '\n[' + new Date().toLocaleTimeString() + '] 🔍 Memvalidasi format data Shopee & TikTok Shop...';
+  if (logTextSpan) logTextSpan.innerHTML += '<br>[' + new Date().toLocaleTimeString() + '] <i class="fa-solid fa-magnifying-glass" style="color: #22c55e; margin-right: 6px;"></i>Memvalidasi format data Shopee & TikTok Shop...';
   if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
   
   try {
     await new Promise(resolve => setTimeout(resolve, 700));
-    if (logTextSpan) logTextSpan.innerText += '\n[' + new Date().toLocaleTimeString() + '] ⚡ Mengirim payload ke database... (Mohon tunggu sebentar)';
+    if (logTextSpan) logTextSpan.innerHTML += '<br>[' + new Date().toLocaleTimeString() + '] <i class="fa-solid fa-bolt" style="color: #22c55e; margin-right: 6px;"></i>Mengirim payload ke database... (Mohon tunggu sebentar)';
     if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
 
     const controller = new AbortController();
@@ -273,7 +271,7 @@ async function processData() {
 
     if (res.status === 'success') {
       await new Promise(resolve => setTimeout(resolve, 400));
-      if (logTextSpan) logTextSpan.innerText += '\n[' + new Date().toLocaleTimeString() + '] ✔️ Menerima respon sukses dari server pusat.';
+      if (logTextSpan) logTextSpan.innerHTML += '<br>[' + new Date().toLocaleTimeString() + '] <i class="fa-solid fa-circle-check" style="color: #22c55e; margin-right: 6px;"></i>Menerima respon sukses dari server pusat.';
       if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
 
       const now = new Date();
@@ -286,7 +284,7 @@ async function processData() {
       for (let i = 0; i < messageLines.length; i++) {
         if (messageLines[i].trim() !== '') {
           await new Promise(resolve => setTimeout(resolve, 200));
-          if (logTextSpan) logTextSpan.innerText += '\n[' + new Date().toLocaleTimeString() + ']   ▪ ' + messageLines[i];
+          if (logTextSpan) logTextSpan.innerHTML += '<br>[' + new Date().toLocaleTimeString() + '] <i class="fa-solid fa-angle-right" style="color: #22c55e; margin-right: 6px;"></i>' + messageLines[i];
           if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
         }
       }
@@ -310,7 +308,7 @@ async function processData() {
       }, 1200);
 
     } else {
-      if (logTextSpan) logTextSpan.innerText += '\n[' + new Date().toLocaleTimeString() + '] ❌ Error: ' + res.message;
+      if (logTextSpan) logTextSpan.innerHTML += '<br>[' + new Date().toLocaleTimeString() + '] <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; margin-right: 6px;"></i>Error: ' + res.message;
       if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
       setTimeout(() => { showCustomAlert('Terjadi Kesalahan: ' + res.message, ''); }, 800);
     }
@@ -320,18 +318,14 @@ async function processData() {
     if (error.name === 'AbortError') {
       errorMessage = "Batas waktu tunggu habis (> 2 menit). Proses server terlalu lama atau koneksi terputus.";
     }
-    if (logTextSpan) logTextSpan.innerText += '\n[' + new Date().toLocaleTimeString() + '] ❌ System Error: ' + errorMessage;
+    if (logTextSpan) logTextSpan.innerHTML += '<br>[' + new Date().toLocaleTimeString() + '] <i class="fa-solid fa-circle-xmark" style="color: #ef4444; margin-right: 6px;"></i>System Error: ' + errorMessage;
     if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
     setTimeout(() => { showCustomAlert('Terjadi Kesalahan: ' + errorMessage, ''); }, 800);
   }
   
   // --- KEMBALI KE SEMULA SAAT SELESAI / ERROR ---
   if (btn) btn.disabled = false;
-  
-  // Sembunyikan spinner dengan paksa
   if (btnSpinner) btnSpinner.style.setProperty('display', 'none', 'important');
-  
-  // Tampilkan kembali teks tombol dan ikon petir
   if (btnText) {
     btnText.style.setProperty('display', 'inline-flex', 'important');
     btnText.innerHTML = '<i class="fa-solid fa-bolt-lightning"></i> Proses';
