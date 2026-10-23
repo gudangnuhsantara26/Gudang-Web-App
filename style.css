@@ -677,18 +677,19 @@ textarea:focus {
 .btn-action:hover .fa-gear {
   transform: rotate(45deg);                         /* Ikon gear geser dikit pas di-hover */
 }
-/* Spinner Modern ala YouTube (Smooth & Elegan) */
-.modern-spinner, #btnSpinner {
-  display: inline-block !important;
+/* Spinner kondisi awal (Standby): Sembunyikan */
+#btnSpinner {
+  display: none !important;
   width: 20px !important;
   height: 20px !important;
   border: 2.5px solid rgba(255, 255, 255, 0.25) !important;
-  border-top-color: #34d399 !important; /* Hijau neon menyala */
+  border-top-color: #34d399 !important;
   border-radius: 50% !important;
   animation: youtubeSpinnerMotion 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) infinite !important;
   margin: 0 !important;
 }
 
+/* Animasi putar ala YouTube */
 @keyframes youtubeSpinnerMotion {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
