@@ -328,7 +328,7 @@ async function processData() {
   if (btnSpinner) btnSpinner.style.setProperty('display', 'none', 'important');
   if (btnText) {
     btnText.style.setProperty('display', 'inline-flex', 'important');
-    btnText.innerHTML = '<i class="fa-solid fa-bolt-lightning"></i> Proses';
+    btnText.innerHTML = '<i class="fa-solid fa-bolt-lightning"></i> EXECUTE';
   }
 }
 
