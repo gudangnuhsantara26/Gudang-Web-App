@@ -922,3 +922,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 400);
   }
 });
+function clearGasInput() {
+  const input = document.getElementById('input-gas-url');
+  if (input) {
+    input.value = '';
+    input.focus(); // Mengembalikan kursor langsung aktif di kotak input
+  }
+}
+
