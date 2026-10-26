@@ -229,16 +229,22 @@
   <div id="loginModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.3s ease;">
     <div style="background: #1e293b; border: 1px solid rgba(56, 189, 248, 0.3); padding: 30px; border-radius: 12px; width: 100%; max-width: 380px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; position: relative; overflow: hidden;">
       
-      <div id="loginAlertBox" style="position: absolute; top: -50px; left: 0; width: 100%; background: #22c55e; color: #fff; padding: 10px; font-size: 13px; font-weight: 600; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-        ✨ Verifikasi Berhasil, Selamat Bertugas!
+      <!-- Alert Box Sukses dengan Ikon Font Awesome -->
+      <div id="loginAlertBox" style="position: absolute; top: -50px; left: 0; width: 100%; background: #22c55e; color: #fff; padding: 12px; font-size: 13px; font-weight: 600; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; justify-content: center; gap: 8px; z-index: 10;">
+        <i class="fa-solid fa-circle-check"></i> <span id="alertSuccessText">Verifikasi Berhasil, Selamat Bertugas!</span>
       </div>
 
-      <div style="font-size: 28px; margin-bottom: 10px;">🔒</div>
+      <div style="font-size: 28px; color: #38bdf8; margin-bottom: 10px;">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
       <h3 style="color: #f8fafc; margin-bottom: 8px; font-size: 18px;">Verifikasi Operator Shift</h3>
-      <p style="color: #94a3b8; font-size: 12px; margin-bottom: 20px;">Masukkan Nama atau ID Karyawan sesuai jadwal rotasi minggu ini.</p>
-<input type="text" id="inputOperatorKey" placeholder="Contoh: IRGI atau GND-001" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; font-size: 14px; margin-bottom: 15px; text-align: center; outline: none;" />
+      <p style="color: #94a3b8; font-size: 12px; margin-bottom: 20px;">Masukkan Nama atau ID Karyawan sesuai jadwal shift minggu ini.</p>
+
+      <input type="text" id="inputOperatorKey" placeholder="Contoh: DWI atau GDN-003" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; font-size: 14px; margin-bottom: 15px; text-align: center; outline: none;" />
       
-      <button onclick="verifyOperatorLogin()" style="width: 100%; background: #38bdf8; color: #0f172a; border: none; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px;">Masuk & Mulai Shift 🚀</button>
+      <button onclick="verifyOperatorLogin()" style="width: 100%; background: #38bdf8; color: #0f172a; border: none; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <i class="fa-solid fa-right-to-bracket"></i> Masuk & Mulai Shift
+      </button>
       <p id="loginErrorMsg" style="color: #f87171; font-size: 11px; margin-top: 10px; display: none;"></p>
     </div>
   </div>
@@ -246,27 +252,50 @@
   <!-- Link ke file JavaScript Eksternal Utama -->
   <script src="script.js"></script>
 
-  <!-- SCRIPT AUDIO API, BOOTING, JAM REAL-TIME & HOTKEYS -->
+ <!-- SCRIPT AUDIO API, BOOTING, JAM REAL-TIME & HOTKEYS -->
   <script>
-    function getActiveOperator() {
-      const operatorList = ["ERIKA", "NOVAN", "IRGI", "DWI"];
+    // Rotasi Mingguan: Minggu 1 (DWI) -> Minggu 2 (NOVAN) -> Minggu 3 (ERIKA) -> Minggu 4 (IRGI)
+    const SHIFT_ROTATION = ["DWI", "NOVAN", "ERIKA", "IRGI"];
+    
+    // Tanggal Acuan (Anchor): Senin, 26 Oktober 2026 (Awal Shift DWI)
+    const ANCHOR_MONDAY = new Date(2026, 9, 26); // Bulan di JS dimulai dari 0 (9 = Oktober)
+
+    function getWeekDifference() {
       const now = new Date();
-      const startOfYear = new Date(now.getFullYear(), 0, 1);
-      const daysPassed = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
-      const weekNumber = Math.floor(daysPassed / 7);
-      return operatorList[weekNumber % operatorList.length];
+      // Set waktu ke 00:00:00 untuk kalkulasi hari bersih
+      const currentDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      
+      // Cari hari Senin di minggu berjalan ini
+      const dayOfWeek = currentDate.getDay(); // 0 = Minggu, 1 = Senin, ...
+      const distanceToMonday = (dayOfWeek + 6) % 7; // Jarak ke Senin terdekat ke belakang
+      const currentMonday = new Date(currentDate);
+      currentMonday.setDate(currentDate.getDate() - distanceToMonday);
+
+      // Hitung selisih minggu dari Anchor Monday
+      const diffInTime = currentMonday.getTime() - ANCHOR_MONDAY.getTime();
+      const diffInDays = Math.floor(diffInTime / (1000 * 3600 * 24));
+      const diffInWeeks = Math.floor(diffInDays / 7);
+
+      return diffInWeeks;
     }
-function getNextOperator() {
-      const operatorList = ["ERIKA", "NOVAN", "IRGI", "DWI"];
-      const now = new Date();
-      const startOfYear = new Date(now.getFullYear(), 0, 1);
-      const daysPassed = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
-      const weekNumber = Math.floor(daysPassed / 7);
-      return operatorList[(weekNumber + 1) % operatorList.length];
+
+    function getActiveOperator() {
+      const weekDiff = getWeekDifference();
+      // Menggunakan Math.floor Modulo agar rotasi berulang 0, 1, 2, 3 konsisten
+      const index = ((weekDiff % SHIFT_ROTATION.length) + SHIFT_ROTATION.length) % SHIFT_ROTATION.length;
+      return SHIFT_ROTATION[index];
+    }
+
+    function getNextOperator() {
+      const weekDiff = getWeekDifference();
+      const nextIndex = (((weekDiff + 1) % SHIFT_ROTATION.length) + SHIFT_ROTATION.length) % SHIFT_ROTATION.length;
+      return SHIFT_ROTATION[nextIndex];
     }
 
     function setWeeklyOperator() {
+      const currentOperator = getActiveOperator();
       const nextOperator = getNextOperator();
+
       const nextOperatorEl = document.getElementById('nextOperatorName');
       if (nextOperatorEl) {
         nextOperatorEl.textContent = nextOperator;
@@ -274,10 +303,20 @@ function getNextOperator() {
 
       const savedSession = localStorage.getItem('gudang_active_operator');
       if (savedSession) {
-        return;
+        try {
+          const session = JSON.parse(savedSession);
+          // Jika operator di session berbeda dengan shift aktif minggu ini, hapus session agar login ulang
+          if (session.name !== currentOperator) {
+            localStorage.removeItem('gudang_active_operator');
+          } else {
+            setOperatorProfile(session.name);
+            return;
+          }
+        } catch(e) {
+          localStorage.removeItem('gudang_active_operator');
+        }
       }
 
-      const currentOperator = getActiveOperator();
       const operatorNameEl = document.getElementById('operatorName');
       if (operatorNameEl) {
         operatorNameEl.textContent = currentOperator;
