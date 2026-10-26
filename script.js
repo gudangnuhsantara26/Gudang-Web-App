@@ -526,6 +526,7 @@ function addCumulativeTotal(amount) {
   localStorage.setItem('gudang_total_alltime', newTotal);
   renderCumulativeCounter();
 }
+
 function renderCumulativeCounter() {
   const badge = document.getElementById('dailyCounterBadge');
   if (badge) badge.innerText = `📦 Total: ${getCumulativeTotal().toLocaleString()} paket`;
@@ -558,13 +559,16 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         localStorage.removeItem('gudang_active_operator');
         if (modal) modal.style.display = 'flex';
+        setOperatorProfile(); // <--- Tambahkan ini agar terkunci bersih saat sesi expired!
       }
     } catch (e) {
       localStorage.removeItem('gudang_active_operator');
       if (modal) modal.style.display = 'flex';
+      setOperatorProfile(); // <--- Tambahkan ini juga pada blok catch error!
     }
   } else {
     if (modal) modal.style.display = 'flex';
+    setOperatorProfile(); // <--- Tambahkan ini agar terkunci bersih saat belum ada session sama sekali!
   }
 });
 
