@@ -105,30 +105,34 @@ function setOperatorProfile(namaOperator) {
 
 function verifyOperatorLogin() {
   const inputEl = document.getElementById('inputOperatorKey');
-  if (!inputEl) return;
+  if (!inputEl) return;  
   
   const inputVal = inputEl.value.trim().toUpperCase();
   const errorMsg = document.getElementById('loginErrorMsg');
   const alertBox = document.getElementById('loginAlertBox');
   const modal = document.getElementById('loginModal');
-  
-  let matchedName = null;
-  for (let key in operatorsProfile) {
-    if (key === inputVal || operatorsProfile[key].id === inputVal) {
-      matchedName = key;
-      break;
-    }
-  }
 
-  if (matchedName) {
+  // Ambil operator resmi yang bertugas minggu ini
+  const activeShiftOperator = typeof getActiveOperator === 'function' ? getActiveOperator() : "DWI";
+  const activeProfile = operatorsProfile[activeShiftOperator];
+
+  // Cek apakah input cocok dengan Nama atau ID dari Operator Shift Aktif
+  const isInputValid = (inputVal === activeShiftOperator) || (activeProfile && inputVal === activeProfile.id);
+
+  if (isInputValid) {
     const sessionData = {
-      name: matchedName,
+      name: activeShiftOperator,
       loginTime: new Date().getTime()
     };
     localStorage.setItem('gudang_active_operator', JSON.stringify(sessionData));
     
-    if (alertBox) alertBox.style.top = '0px';
-    setOperatorProfile(matchedName);
+    if (errorMsg) errorMsg.style.display = 'none';
+    if (alertBox) {
+      // Menggunakan innerHTML dengan ikon Font Awesome (circle-check)
+      alertBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span id="alertSuccessText">Verifikasi Berhasil! Selamat Bertugas, ${activeShiftOperator}!</span>`;
+      alertBox.style.top = '0px';
+    }
+    setOperatorProfile(activeShiftOperator);
     
     setTimeout(() => {
       if (modal) {
@@ -136,8 +140,7 @@ function verifyOperatorLogin() {
         setTimeout(() => { 
           modal.style.display = 'none'; 
           
-          const operatorKey = matchedName.toUpperCase();
-          const welcomeAudio = new Audio(`https://raw.githubusercontent.com/Nov-dev02/Gudang-Web-App/main/audio/${operatorKey}.mp3?v=99`);
+          const welcomeAudio = new Audio(`https://raw.githubusercontent.com/Nov-dev02/Gudang-Web-App/main/audio/${activeShiftOperator}.mp3?v=99`);
           welcomeAudio.volume = 0.9;
           welcomeAudio.play().catch(err => console.log("Audio play blocked/error:", err));
 
@@ -147,7 +150,8 @@ function verifyOperatorLogin() {
 
   } else {
     if (errorMsg) {
-      errorMsg.innerText = "❌ Nama atau ID tidak terdaftar dalam jadwal shift minggu ini!";
+      // Menggunakan innerHTML dengan ikon Font Awesome (circle-xmark) menggantikan emoji silang
+      errorMsg.innerHTML = `<i class="fa-solid fa-circle-xmark" style="margin-right: 4px;"></i> Access Denied! Harap masukkan operator yang valid`;
       errorMsg.style.display = 'block';
     }
   }
