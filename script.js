@@ -81,17 +81,30 @@ const operatorsProfile = {
 };
 
 function setOperatorProfile(namaOperator) {
-    const cleanName = namaOperator ? namaOperator.toUpperCase() : "";
-    const profile = operatorsProfile[cleanName] || { id: "GDN-999", name: namaOperator, photo: "" };
-    
     const elName = document.getElementById('operatorName');
     const elId = document.getElementById('operatorId');
     const elAvatarBox = document.getElementById('operatorAvatarBox');
+    
+    // Jika belum login / nama operator kosong, kunci badge di pojok kanan atas demi keamanan
+    if (!namaOperator) {
+        if (elName) elName.innerText = "LOCKED";
+        if (elId) elId.innerText = "ID: ---";
+        if (elAvatarBox) {
+            elAvatarBox.innerHTML = '<i class="fa-solid fa-lock"></i>';
+            elAvatarBox.style.background = 'rgba(239, 68, 68, 0.2)';
+            elAvatarBox.style.color = '#ef4444';
+        }
+        return;
+    }
+
+    const cleanName = namaOperator.toUpperCase();
+    const profile = operatorsProfile[cleanName] || { id: "GDN-999", name: namaOperator, photo: "" };
     
     if (elName) elName.innerText = profile.name;
     if (elId) elId.innerText = `ID: ${profile.id}`;
     
     if (elAvatarBox) {
+        elAvatarBox.style.color = ''; // Reset warna ikon lock jika sebelumnya terkunci
         if (profile.photo && profile.photo.trim() !== "") {
             elAvatarBox.innerHTML = `<img src="${profile.photo}" alt="${profile.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 3px;">`;
             elAvatarBox.style.background = 'transparent';
