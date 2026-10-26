@@ -84,17 +84,32 @@ function setOperatorProfile(namaOperator) {
     const elName = document.getElementById('operatorName');
     const elId = document.getElementById('operatorId');
     const elAvatarBox = document.getElementById('operatorAvatarBox');
+    const settingBtn = document.getElementById('settingBtn'); // Ambil elemen tombol setting
     
-    // Jika belum login / nama operator kosong, kunci badge di pojok kanan atas
+    // Jika belum login / nama operator kosong, kunci badge di pojok kanan atas dan kunci tombol Setting
     if (!namaOperator) {
-        if (elName) elName.innerText = "---";      // <--- Tambahkan ini agar namanya ikut bersih/kosong
+        if (elName) elName.innerText = "---";
         if (elId) elId.innerText = "ID: ---";
         if (elAvatarBox) {
             elAvatarBox.innerHTML = '<i class="fa-solid fa-lock"></i>';
             elAvatarBox.style.background = 'rgba(239, 68, 68, 0.2)';
             elAvatarBox.style.color = '#ef4444';
         }
+        
+        // Kunci tombol Setting saat belum login
+        if (settingBtn) {
+            settingBtn.disabled = true;
+            settingBtn.style.opacity = '0.5';
+            settingBtn.style.cursor = 'not-allowed';
+        }
         return;
+    }
+
+    // Buka kunci tombol Setting saat sudah berhasil login
+    if (settingBtn) {
+        settingBtn.disabled = false;
+        settingBtn.style.opacity = '1';
+        settingBtn.style.cursor = 'pointer';
     }
 
     const cleanName = namaOperator.toUpperCase();
@@ -163,7 +178,7 @@ function verifyOperatorLogin() {
 
   } else {
     if (errorMsg) {
-      // Menggunakan innerHTML dengan ikon Font Awesome (circle-xmark) menggantikan emoji silang
+      // Menggunakan innerHTML dengan ikon Font Awesome (circle-xmark)
       errorMsg.innerHTML = `<i class="fa-solid fa-circle-xmark" style="margin-right: 4px;"></i> Access Denied! Harap masukkan operator yang valid`;
       errorMsg.style.display = 'block';
     }
