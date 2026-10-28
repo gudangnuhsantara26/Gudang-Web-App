@@ -1,7 +1,7 @@
 // =========================================================================
 // 🌐 KONFIGURASI DINAMIS LINK GAS (GOOGLE APPS SCRIPT)
 // =========================================================================
-const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzukrX8QXwYKbgXIwyskJMHtuNS509kL5fTgK_WAxgQ7x4FoCAxHuumM-Dc02XA8zIY/exec";
+const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzgfgJTg5maF0gLBcmFhLwqQS9dAzqXmFthEcp_GW3WtrOKuOfqP_INVLxlm0-68Yv8fA/exec";
 
 // Fungsi untuk membaca Link GAS aktif dari LocalStorage browser
 function getGasUrl() {
