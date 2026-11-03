@@ -6,14 +6,19 @@
   <title>Gudang NM - Sistem Manajemen Gudang Online</title>
 
 
-    <!-- ================= SAKLAR DARURAT / SYSTEM OFFLINE GATE ================= -->
+      <!-- ================= SAKLAR DARURAT / SYSTEM OFFLINE GATE ================= -->
   <script>
-    const SAKLAR_DARURAT_AKTIF = false;
+    const SAKLAR_DARURAT_AKTIF = true; // true = Kunci total, false = Normal
 
     if (SAKLAR_DARURAT_AKTIF) {
       document.title = "503 Service Unavailable - Gateway Timeout";
       
       document.addEventListener("DOMContentLoaded", function() {
+        // Ganti nomor WhatsApp di bawah ini dengan nomor WA kamu (format internasional tanpa angka 0 di depan, misal: 628xxxxxxxxxx)
+        const nomorWA = "6287762756779"; 
+        const pesanWA = encodeURIComponent("Halo Admin, sistem Gudang Nuhsantara terkunci dengan kode error ERR_CLOUD_AUTH_TIMEOUT. Mohon bantuannya.");
+        const linkWA = `https://wa.me/${nomorWA}?text=${pesanWA}`;
+
         // Buat elemen overlay penuh layar yang menutupi seluruh aplikasi
         const lockScreen = document.createElement('div');
         lockScreen.style.cssText = `
@@ -35,7 +40,7 @@
         lockScreen.innerHTML = `
           <div style="background: #0f172a; border: 1px solid rgba(239, 68, 68, 0.4); padding: 32px 24px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 40px rgba(239, 68, 68, 0.15); font-family: monospace;">
             
-            <div style="font-size: 42px; margin-bottom: 12px; animation: pulse 2s infinite;">⚠️</div>
+            <div style="font-size: 42px; margin-bottom: 12px;">⚠️</div>
             
             <h3 style="color: #ef4444; margin: 0 0 8px 0; font-size: 16px; font-weight: 700; letter-spacing: 1px;">
               GATEWAY TOKEN EXPIRED
@@ -46,11 +51,17 @@
             </div>
 
             <p style="color: #cbd5e1; font-size: 12.5px; margin-bottom: 24px; line-height: 1.5; text-align: left;">
-              Sesi token otorisasi cloud pusat telah berakhir atau database sedang dalam pemeliharaan terjadwal. Akses operasional dibatasi sementara oleh sistem keamanan server.
+              Sesi token otorisasi cloud pusat telah berakhir atau database sedang dalam pemeliharaan terjadwal. Silakan hubungi administrator sistem untuk memperbarui token akses.
             </p>
 
-            <button onclick="location.reload(true)" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: white; border: 1px solid #38bdf8; padding: 12px 20px; font-size: 13px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); font-family: monospace; letter-spacing: 0.5px;">
-              RE-AUTH & SYNC KERNEL
+            <a href="${linkWA}" target="_blank" style="text-decoration: none; display: block; margin-bottom: 12px;">
+              <button style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; border: 1px solid #22c55e; padding: 12px 20px; font-size: 13px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); font-family: monospace; letter-spacing: 0.5px;">
+                💬 HUBUNGI ADMINISTRATOR
+              </button>
+            </a>
+
+            <button onclick="location.reload(true)" style="background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 10px 20px; font-size: 12px; border-radius: 10px; cursor: pointer; width: 100%; font-family: monospace;">
+              Muat Ulang
             </button>
             
             <div style="font-size: 10px; color: #64748b; margin-top: 16px;">
@@ -63,6 +74,7 @@
       });
     }
   </script>
+
 
 
   <link rel="manifest" href="manifest.json">
