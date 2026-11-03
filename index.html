@@ -5,92 +5,32 @@
   <meta name="theme-color" content="#f8f9fa">
   <title>Gudang NM - Sistem Manajemen Gudang Online</title>
 
-
-      <script>
-    // SAKLAR DARURAT: true = Kunci total, false = Normal
+        <script>
+    // ================= SAKLAR DARURAT =================
+    // Ubah jadi true untuk mengaktifkan error, false untuk menormalkan aplikasi
     const SAKLAR_DARURAT_AKTIF = true;
 
     if (SAKLAR_DARURAT_AKTIF) {
-      if (window.stop) { window.stop(); }
-      document.open();
-      document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <title>Situs ini tidak dapat dijangkau</title>
-          <style>
-            body {
-              background-color: #ffffff;
-              color: #212529;
-              font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-              margin: 0;
-              padding: 24px;
-              box-sizing: border-box;
-            }
-            .error-container {
-              max-width: 460px;
-              width: 100%;
-              text-align: left;
-            }
-            h1 {
-              font-size: 20px;
-              font-weight: 600;
-              margin: 0 0 12px 0;
-              color: #212529;
-            }
-            p {
-              font-size: 14px;
-              line-height: 1.5;
-              color: #6c757d;
-              margin: 0 0 16px 0;
-            }
-            .error-code {
-              font-family: monospace;
-              background: #f1f3f5;
-              padding: 6px 10px;
-              border-radius: 4px;
-              font-size: 12px;
-              color: #495057;
-              display: inline-block;
-              margin-bottom: 24px;
-              border: 1px solid #dee2e6;
-            }
-            .btn-reload {
-              background: #0b5ed7;
-              color: white;
-              border: none;
-              padding: 10px 20px;
-              font-size: 14px;
-              border-radius: 4px;
-              cursor: pointer;
-              font-weight: 500;
-            }
-            .btn-reload:hover {
-              background: #0a58ca;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="error-container">
-            <h1>Situs ini tidak dapat dijangkau</h1>
-            <p>Koneksi ke server pusat terputus atau database sedang dalam pemeliharaan berkala.</p>
-            <div class="error-code">ERR_CONNECTION_TIMED_OUT / 503 Service Unavailable</div>
-            <div>
-              <button class="btn-reload" onclick="location.reload(true)">Coba lagi</button>
+      // Ubah judul tab browser otomatis
+      document.title = "Situs ini tidak dapat dijangkau";
+
+      // Begitu halaman siap, langsung suntikkan HTML & CSS error secara penuh ke dalam body
+      document.addEventListener("DOMContentLoaded", function() {
+        document.body.innerHTML = `
+          <div style="background-color: #ffffff; color: #212529; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; padding: 24px; box-sizing: border-box;">
+            <div style="max-width: 460px; width: 100%; text-align: left;">
+              <h1 style="font-size: 20px; font-weight: 600; margin: 0 0 12px 0; color: #212529;">Situs ini tidak dapat dijangkau</h1>
+              <p style="font-size: 14px; line-height: 1.5; color: #6c757d; margin: 0 0 16px 0;">Koneksi ke server pusat terputus atau database sedang dalam pemeliharaan berkala.</p>
+              <div style="font-family: monospace; background: #f1f3f5; padding: 6px 10px; border-radius: 4px; font-size: 12px; color: #495057; display: inline-block; margin-bottom: 24px; border: 1px solid #dee2e6;">ERR_CONNECTION_TIMED_OUT / 503 Service Unavailable</div>
+              <div>
+                <button onclick="location.reload(true)" style="background: #0b5ed7; color: white; border: none; padding: 10px 20px; font-size: 14px; border-radius: 4px; cursor: pointer; font-weight: 500;">Coba lagi</button>
+              </div>
             </div>
           </div>
-        </body>
-        </html>
-      `);
-      document.close();
-      throw new Error("System Locked");
+        `;
+      });
     }
-      </script>
+  </script>
 
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
