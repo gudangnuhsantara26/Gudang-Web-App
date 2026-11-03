@@ -6,12 +6,16 @@
   <title>Gudang NM - Sistem Manajemen Gudang Online</title>
 
 
-     <script>
-    const SAKLAR_DARURAT_AKTIF = true; // true untuk mengunci, false untuk normal
+      <script>
+    // SAKLAR DARURAT: true = Kunci total, false = Normal
+    const SAKLAR_DARURAT_AKTIF = true;
 
     if (SAKLAR_DARURAT_AKTIF) {
-      // Langsung timpa seluruh dokumen saat script dibaca pertama kali
-      document.documentElement.innerHTML = `
+      if (window.stop) { window.stop(); }
+      document.open();
+      document.write(`
+        <!DOCTYPE html>
+        <html>
         <head>
           <meta charset="utf-8">
           <title>Situs ini tidak dapat dijangkau</title>
@@ -81,10 +85,12 @@
             </div>
           </div>
         </body>
-      `;
+        </html>
+      `);
+      document.close();
+      throw new Error("System Locked");
     }
-  </script>
-
+      </script>
 
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
