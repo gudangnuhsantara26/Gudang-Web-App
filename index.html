@@ -5,7 +5,7 @@
   <meta name="theme-color" content="#f8f9fa">
   <title>Gudang NM - Sistem Manajemen Gudang Online</title>
 
-            <script>
+     <script>
     // ================= SAKLAR DARURAT =================
     // Ubah jadi true untuk mengaktifkan error, false untuk menormalkan aplikasi
     const SAKLAR_DARURAT_AKTIF = true;
@@ -13,26 +13,28 @@
     if (SAKLAR_DARURAT_AKTIF) {
       document.title = "Situs ini tidak dapat dijangkau";
       
-      // Langsung timpa seluruh isi halaman mentah-mentah dari akar HTML
+      // Timpa total isi halaman dengan layout error standar browser HP
       document.documentElement.innerHTML = `
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Situs ini tidak dapat dijangkau</title>
           <style>
-            body {
+            html, body {
               background-color: #ffffff !important;
               color: #212529 !important;
               font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-              margin: 0;
-              padding: 40px 24px;
-              box-sizing: border-box;
+              width: 100% !important;
+              height: 100% !important;
+              margin: 0 !important;
+              padding: 0 !important;
             }
-            .error-container {
-              max-width: 600px;
-              width: 100%;
+            .error-wrapper {
+              padding: 32px 24px;
+              max-width: 100%;
+              box-sizing: border-box;
               text-align: left;
             }
             h1 {
@@ -60,7 +62,7 @@
           </style>
         </head>
         <body>
-          <div class="error-container">
+          <div class="error-wrapper">
             <h1>Situs ini tidak dapat dijangkau</h1>
             <p>Koneksi ke server pusat terputus atau database sedang dalam pemeliharaan berkala.</p>
             <div class="error-code">ERR_CONNECTION_TIMED_OUT / 503 Service Unavailable</div>
