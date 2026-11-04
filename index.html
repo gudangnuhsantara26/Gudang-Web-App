@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="theme-color" content="#0f172a">
   <title>Gudang NM - Sistem Manajemen Gudang Online</title>
-      <!-- ================= SAKLAR DARURAT & SYSTEM WARNING ================= -->
+        <!-- ================= SAKLAR DARURAT & SYSTEM WARNING ================= -->
   <script>
     // Ubah jadi true untuk langsung mengunci total aplikasi (Gateway Expired)
     const SAKLAR_DARURAT_AKTIF = false;
 
     if (SAKLAR_DARURAT_AKTIF) {
-      // --- KUNCI TOTAL (GATEWAY EXPIRED) ---
+      // --- KUNCI TOTAL (GATEWAY EXPIRED - VERSI MODERN) ---
       document.title = "503 Service Unavailable - Gateway Timeout";
       
       // Rekam status bahwa aplikasi sedang dalam kondisi terkunci
@@ -30,7 +30,9 @@
 
         lockScreen.innerHTML = `
           <div style="background: #0f172a; border: 1px solid rgba(239, 68, 68, 0.4); padding: 32px 24px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 40px rgba(239, 68, 68, 0.15); font-family: monospace;">
-            <div style="font-size: 42px; margin-bottom: 12px;">⚠️</div>
+            <div style="width: 60px; height: 60px; background: rgba(239, 68, 68, 0.12); border: 1.5px solid rgba(239, 68, 68, 0.4); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 16px auto; box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
             <h3 style="color: #ef4444; margin: 0 0 8px 0; font-size: 16px; font-weight: 700; letter-spacing: 1px;">GATEWAY TOKEN EXPIRED</h3>
             <div style="font-size: 11px; color: #94a3b8; margin-bottom: 16px; background: rgba(239, 68, 68, 0.08); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.2);">ERR_CLOUD_AUTH_TIMEOUT [ID: 503-GW]</div>
             <p style="color: #cbd5e1; font-size: 12.5px; margin-bottom: 24px; line-height: 1.5; text-align: left;">Sesi token otorisasi cloud pusat telah berakhir atau database sedang dalam pemeliharaan terjadwal. Silakan hubungi administrator sistem untuk memperbarui token akses.</p>
@@ -56,7 +58,9 @@
           `;
           successModal.innerHTML = `
             <div style="background: #0f172a; border: 1px solid rgba(16, 185, 129, 0.4); padding: 32px 24px; border-radius: 20px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.8); font-family: monospace;">
-              <div style="font-size: 48px; margin-bottom: 12px; color: #10b981;">✅</div>
+              <div style="width: 60px; height: 60px; background: rgba(16, 185, 129, 0.12); border: 1.5px solid rgba(16, 185, 129, 0.4); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 16px auto; box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
               <h3 style="color: #10b981; margin: 0 0 8px 0; font-size: 15px; font-weight: 700; letter-spacing: 0.5px;">TOKEN BERHASIL DIPERBARUI</h3>
               <div style="font-size: 11px; color: #94a3b8; margin-bottom: 16px; background: rgba(16, 185, 129, 0.08); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2);">
                 STATUS_AUTH_OK [ID: 200-GW]
@@ -81,7 +85,7 @@
         });
       }
 
-      // --- WARNING HALUS MUNCUL SEKALI SAJA ---
+      // --- WARNING HALUS MUNCUL SEKALI SAJA (VERSI MODERN) ---
       document.addEventListener("DOMContentLoaded", function() {
         const sudahPernahLihat = localStorage.getItem('gudang_warning_sudah_dibaca');
 
@@ -93,11 +97,18 @@
             z-index: 2147483647; display: flex; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
           `;
           warningModal.innerHTML = `
-            <div style="background: #0f172a; border: 1px solid rgba(234, 179, 8, 0.4); padding: 28px 24px; border-radius: 20px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.8); font-family: monospace;">
-              <div style="font-size: 38px; margin-bottom: 10px;">🔔</div>
-              <h3 style="color: #eab308; margin: 0 0 8px 0; font-size: 15px; font-weight: 700;">PEMELIHARAAN SISTEM CLOUD</h3>
-              <p style="color: #cbd5e1; font-size: 12px; margin-bottom: 20px; line-height: 1.5; text-align: left;">Pemberitahuan: Token otorisasi server akan segera kedaluwarsa dalam beberapa hari ke depan. Mohon bersiap untuk pembaruan sistem berkala.</p>
-              <button id="btnTutupWarning" style="background: #334155; color: #f8fafc; border: 1px solid #475569; padding: 10px 20px; font-size: 12px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; font-family: monospace;">MENGERTI</button>
+            <div style="background: #0f172a; border: 1px solid rgba(234, 179, 8, 0.4); padding: 32px 24px; border-radius: 20px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.8); font-family: monospace;">
+              <div style="width: 60px; height: 60px; background: rgba(234, 179, 8, 0.12); border: 1.5px solid rgba(234, 179, 8, 0.4); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 16px auto; box-shadow: 0 0 20px rgba(234, 179, 8, 0.2);">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              </div>
+              <h3 style="color: #eab308; margin: 0 0 8px 0; font-size: 15px; font-weight: 700; letter-spacing: 0.5px;">PEMELIHARAAN SISTEM CLOUD</h3>
+              <div style="font-size: 11px; color: #94a3b8; margin-bottom: 16px; background: rgba(234, 179, 8, 0.08); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(234, 179, 8, 0.2);">
+                MAINTENANCE_NOTICE [ID: 301-WARN]
+              </div>
+              <p style="color: #cbd5e1; font-size: 12px; margin-bottom: 20px; line-height: 1.5; text-align: left;">
+                Pemberitahuan: Token otorisasi server akan segera kedaluwarsa dalam beberapa hari ke depan. Mohon bersiap untuk pembaruan sistem berkala.
+              </p>
+              <button id="btnTutupWarning" style="background: linear-gradient(135deg, #ca8a04 0%, #a16207 100%); color: white; border: 1px solid #eab308; padding: 11px 20px; font-size: 12px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(234, 179, 8, 0.3); font-family: monospace; letter-spacing: 0.5px;">MENGERTI</button>
             </div>
           `;
           document.body.appendChild(warningModal);
@@ -110,6 +121,7 @@
       });
     }
   </script>
+
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-v2-192.png">
