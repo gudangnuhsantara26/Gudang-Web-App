@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="theme-color" content="#0f172a">
   <title>Gudang NM - Sistem Manajemen Gudang Online</title>
-    <!-- ================= SAKLAR DARURAT & SYSTEM WARNING ================= -->
+      <!-- ================= SAKLAR DARURAT & SYSTEM WARNING ================= -->
   <script>
     // Ubah jadi true untuk langsung mengunci total aplikasi (Gateway Expired)
     const SAKLAR_DARURAT_AKTIF = false;
@@ -13,6 +13,9 @@
       // --- KUNCI TOTAL (GATEWAY EXPIRED) ---
       document.title = "503 Service Unavailable - Gateway Timeout";
       
+      // Rekam status bahwa aplikasi sedang dalam kondisi terkunci
+      localStorage.setItem('gudang_status_terkunci', 'true');
+
       document.addEventListener("DOMContentLoaded", function() {
         const nomorWA = "6287762756779"; 
         const pesanWA = encodeURIComponent("Halo Admin, sistem Gudang Nuhsantara terkunci dengan kode error ERR_CLOUD_AUTH_TIMEOUT. Mohon bantuannya.");
@@ -42,6 +45,42 @@
       });
 
     } else {
+      // --- CEK APAKAH BARU SAJA DIPULIHKAN DARI STATUS DARURAT ---
+      if (localStorage.getItem('gudang_status_terkunci') === 'true') {
+        document.addEventListener("DOMContentLoaded", function() {
+          const successModal = document.createElement('div');
+          successModal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(7, 11, 20, 0.85); backdrop-filter: blur(10px);
+            z-index: 2147483647; display: flex; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
+          `;
+          successModal.innerHTML = `
+            <div style="background: #0f172a; border: 1px solid rgba(16, 185, 129, 0.4); padding: 32px 24px; border-radius: 20px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.8); font-family: monospace;">
+              <div style="font-size: 48px; margin-bottom: 12px; color: #10b981;">✅</div>
+              <h3 style="color: #10b981; margin: 0 0 8px 0; font-size: 15px; font-weight: 700; letter-spacing: 0.5px;">TOKEN BERHASIL DIPERBARUI</h3>
+              <div style="font-size: 11px; color: #94a3b8; margin-bottom: 16px; background: rgba(16, 185, 129, 0.08); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2);">
+                STATUS_AUTH_OK [ID: 200-GW]
+              </div>
+              <p style="color: #cbd5e1; font-size: 12px; margin-bottom: 0; line-height: 1.5;">
+                Otorisasi cloud pusat telah diperbarui. Sistem Gudang Nuhsantara siap digunakan kembali secara normal.
+              </p>
+            </div>
+          `;
+          document.body.appendChild(successModal);
+
+          // Bersihkan status terkunci agar popup sukses hanya muncul sekali pas habis dipulihkan
+          localStorage.removeItem('gudang_status_terkunci');
+          localStorage.setItem('gudang_warning_sudah_dibaca', 'true');
+
+          // Otomatis hilang sendiri setelah 3.5 detik
+          setTimeout(function() {
+            successModal.style.transition = "opacity 0.5s ease";
+            successModal.style.opacity = "0";
+            setTimeout(() => successModal.remove(), 500);
+          }, 3500);
+        });
+      }
+
       // --- WARNING HALUS MUNCUL SEKALI SAJA ---
       document.addEventListener("DOMContentLoaded", function() {
         const sudahPernahLihat = localStorage.getItem('gudang_warning_sudah_dibaca');
@@ -71,7 +110,6 @@
       });
     }
   </script>
-
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-v2-192.png">
