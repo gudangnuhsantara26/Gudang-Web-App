@@ -4,27 +4,30 @@
   <meta charset="utf-8">
   <meta name="theme-color" content="#0f172a">
   <title>Gudang NM - Sistem Manajemen Gudang Online</title>
+
   <!-- ================= SISTEM LISENSI TOKEN OTOMATIS & SECURITY CORE ================= -->
 <script>
-  // --- FUNGSI DECODER TOKEN ACAK KE TANGGAL ---
+  // --- FUNGSI DECODER TOKEN TERENKRIPSI (OBFUSCATED HEX DENGAN MARKER 'NX') ---
   function decodeTokenToDate(token) {
     try {
-      if (!token || token.length < 10) return null;
+      if (!token || token.length < 15) return null;
       let cleanToken = token.trim();
       
-      let matches = cleanToken.match(/202[0-9][0-1][0-9][0-3][0-9]/g);
-      if (!matches) {
-        let reversed = cleanToken.split('').reverse().join('');
-        matches = reversed.match(/202[0-9][0-1][0-9][0-3][0-9]/g);
-        if (!matches) return null;
-      }
+      // Cek apakah token mengandung marker rahasia 'NX'
+      if (!cleanToken.includes('NX')) return null;
       
-      let rawDateStr = matches[0];
-      let year = rawDateStr.substring(0, 4);
-      let month = rawDateStr.substring(4, 6);
-      let day = rawDateStr.substring(6, 8);
+      let parts = cleanToken.split('NX');
+      if (parts.length < 2) return null;
       
-      let targetDate = new Date(`${year}-${month}-${day}`);
+      // Ambil bagian hex setelah 'NX'
+      let hexPart = parts[1].match(/^[0-9a-fA-F]+/);
+      if (!hexPart) return null;
+      
+      // Ubah kembali string hex ke timestamp angka milidetik
+      let timestamp = parseInt(hexPart[0], 16);
+      if (isNaN(timestamp)) return null;
+      
+      let targetDate = new Date(timestamp);
       if (isNaN(targetDate.getTime())) return null;
       
       return targetDate;
@@ -150,7 +153,6 @@
     }
   }
 </script>
-
 
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
