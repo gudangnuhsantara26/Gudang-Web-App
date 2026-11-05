@@ -118,7 +118,7 @@
         `;
         document.body.appendChild(lockScreen);
 
-                // Logic saat tombol aktivasi token diklik (Animasi Validasi + Loading Dots)
+                        // Logic saat tombol aktivasi token diklik
         document.getElementById('btnRedeemToken').addEventListener('click', function() {
           const btn = this;
           const valToken = document.getElementById('inputTokenLisensi').value;
@@ -126,7 +126,6 @@
           const errorMsg = document.getElementById('tokenErrorMsg');
 
           if (decodedDate && decodedDate > new Date()) {
-            // Ubah tombol jadi mode loading interaktif
             btn.style.opacity = "0.8";
             btn.style.pointerEvents = "none";
             
@@ -137,7 +136,6 @@
               btn.innerText = "MEMVALIDASI TOKEN" + dots;
             }, 300);
 
-            // Jeda 1 detik biar animasinya terasa natural ala enkripsi cloud
             setTimeout(function() {
               clearInterval(loadingInterval);
               localStorage.setItem('gudang_token_expiry', decodedDate.toISOString());
@@ -149,13 +147,12 @@
             errorMsg.style.display = 'block';
             document.getElementById('inputTokenLisensi').style.border = "1px solid #ef4444";
             
-            // Efek getar (shake) kalau token salah
             btn.style.transform = "translateX(5px)";
-            setTimeout(() => btn.style.transform = "translateX(-5px)", 100);
-            setTimeout(() => btn.style.transform = "translateX(0)", 200);
+            setTimeout(function() { btn.style.transform = "translateX(-5px)"; }, 100);
+            setTimeout(function() { btn.style.transform = "translateX(0)"; }, 200);
           }
         });
-        
+
     } else {
       // --- KONDISI NORMAL & PEMULIHAN SUCCESS ---
       if (localStorage.getItem('gudang_status_terkunci') === 'true') {
