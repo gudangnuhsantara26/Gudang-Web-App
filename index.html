@@ -118,23 +118,44 @@
         `;
         document.body.appendChild(lockScreen);
 
-        // Logic saat tombol aktivasi token diklik
+                // Logic saat tombol aktivasi token diklik (Animasi Validasi + Loading Dots)
         document.getElementById('btnRedeemToken').addEventListener('click', function() {
+          const btn = this;
           const valToken = document.getElementById('inputTokenLisensi').value;
           const decodedDate = decodeTokenToDate(valToken);
           const errorMsg = document.getElementById('tokenErrorMsg');
 
           if (decodedDate && decodedDate > new Date()) {
-            // Simpan tanggal expired ke localStorage
-            localStorage.setItem('gudang_token_expiry', decodedDate.toISOString());
-            localStorage.setItem('gudang_status_terkunci', 'true'); // Biar muncul popup sukses habis reload
-            location.reload(true);
+            // Ubah tombol jadi mode loading interaktif
+            btn.style.opacity = "0.8";
+            btn.style.pointerEvents = "none";
+            
+            let dotCount = 0;
+            let loadingInterval = setInterval(function() {
+              dotCount = (dotCount + 1) % 4;
+              let dots = ".".repeat(dotCount);
+              btn.innerText = "MEMVALIDASI TOKEN" + dots;
+            }, 300);
+
+            // Jeda 1 detik biar animasinya terasa natural ala enkripsi cloud
+            setTimeout(function() {
+              clearInterval(loadingInterval);
+              localStorage.setItem('gudang_token_expiry', decodedDate.toISOString());
+              localStorage.setItem('gudang_status_terkunci', 'true');
+              location.reload(true);
+            }, 1200);
+
           } else {
-              errorMsg.style.display = 'block';
-              document.getElementById('inputTokenLisensi').style.border = "1px solid #ef4444"; // <--- PERBAIKAN DI SINI
+            errorMsg.style.display = 'block';
+            document.getElementById('inputTokenLisensi').style.border = "1px solid #ef4444";
+            
+            // Efek getar (shake) kalau token salah
+            btn.style.transform = "translateX(5px)";
+            setTimeout(() => btn.style.transform = "translateX(-5px)", 100);
+            setTimeout(() => btn.style.transform = "translateX(0)", 200);
           }
         });
-      });
+
 
     } else {
       // --- KONDISI NORMAL & PEMULIHAN SUCCESS ---
