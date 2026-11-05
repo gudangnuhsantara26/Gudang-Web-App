@@ -1,15 +1,3 @@
-// Paksa unregister Service Worker yang nyangkut dan bersihkan storage
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for(let registration of registrations) {
-      registration.unregister();
-    }
-  });
-}
-// Hapus paksa token supaya layar error langsung muncul
-localStorage.clear();
-
-
 // =========================================================================
 // 🌐 KONFIGURASI DINAMIS LINK GAS (GOOGLE APPS SCRIPT)
 // =========================================================================
