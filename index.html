@@ -128,8 +128,8 @@
             localStorage.setItem('gudang_status_terkunci', 'true'); // Biar muncul popup sukses habis reload
             location.reload(true);
           } else {
-            errorMsg.style.display = 'block';
-            document.getElementById('inputTokenLisensi.style.border = "1px solid #ef4444"';
+              errorMsg.style.display = 'block';
+              document.getElementById('inputTokenLisensi').style.border = "1px solid #ef4444"; // <--- PERBAIKAN DI SINI
           }
         });
       });
