@@ -8,20 +8,21 @@
   <script>
     // --- FUNGSI DECODER TOKEN ACAK KE TANGGAL ---
     // Mengubah token acak panjang menjadi tanggal YYYY-MM-DD
-    function decodeTokenToDate(token) {
+        function decodeTokenToDate(token) {
       try {
         if (!token || token.length < 10) return null;
-        // Ambil string acak, balikkan, lalu decode Base64 / parsing angka tersembunyi
-        // Di sini kita pakai formula reverse string + mapping karakter numerik rahasia
         let cleanToken = token.trim();
-        let reversed = cleanToken.split('').reverse().join('');
         
-        // Ambil angka-angka yang terselip di dalam token acak
-        let extractedNumbers = reversed.replace(/\D/g, '');
-        if (extractedNumbers.length < 8) return null;
+        // Cari angka 8 digit berurutan yang membentuk format tanggal (misal diawali 202x)
+        let matches = cleanToken.match(/202[0-9][0-1][0-9][0-3][0-9]/g);
+        if (!matches) {
+          // Jika tidak ketemu format 202x langsung, coba cari dengan membalik string
+          let reversed = cleanToken.split('').reverse().join('');
+          matches = reversed.match(/202[0-9][0-1][0-9][0-3][0-9]/g);
+          if (!matches) return null;
+        }
         
-        // Ambil 8 digit pertama format YYYYMMDD
-        let rawDateStr = extractedNumbers.substring(0, 8);
+        let rawDateStr = matches[0]; // Ketemu format YYYYMMDD asli!
         let year = rawDateStr.substring(0, 4);
         let month = rawDateStr.substring(4, 6);
         let day = rawDateStr.substring(6, 8);
@@ -34,6 +35,7 @@
         return null;
       }
     }
+
 
     // --- CEK APAKAH TOKEN DI LOCALSTORAGE MASIH AKTIF ---
     function cekStatusLisensi() {
