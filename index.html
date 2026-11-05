@@ -38,7 +38,7 @@
     // --- CEK APAKAH TOKEN DI LOCALSTORAGE MASIH AKTIF ---
     function cekStatusLisensi() {
       const savedTokenExpiry = localStorage.getItem('gudang_token_expiry');
-      if (!savedTokenExpiry) return false; // Belum ada token / expired
+      if (!savedTokenExpiry) return true; // Belum ada token / expired
 
       const expiryDate = new Date(savedTokenExpiry);
       const today = new Date();
