@@ -84,9 +84,8 @@ function setOperatorProfile(namaOperator) {
     const elName = document.getElementById('operatorName');
     const elId = document.getElementById('operatorId');
     const elAvatarBox = document.getElementById('operatorAvatarBox');
-    const settingBtn = document.getElementById('settingBtn'); // Ambil elemen tombol setting
+    const settingBtn = document.getElementById('settingBtn');
     
-    // Jika belum login / nama operator kosong, kunci badge di pojok kanan atas dan kunci tombol Setting
     if (!namaOperator) {
         if (elName) elName.innerText = "---";
         if (elId) elId.innerText = "ID: ---";
@@ -96,7 +95,6 @@ function setOperatorProfile(namaOperator) {
             elAvatarBox.style.color = '#ef4444';
         }
         
-        // Kunci tombol Setting saat belum login
         if (settingBtn) {
             settingBtn.disabled = true;
             settingBtn.style.opacity = '0.5';
@@ -105,7 +103,6 @@ function setOperatorProfile(namaOperator) {
         return;
     }
 
-    // Buka kunci tombol Setting saat sudah berhasil login
     if (settingBtn) {
         settingBtn.disabled = false;
         settingBtn.style.opacity = '1';
@@ -119,7 +116,7 @@ function setOperatorProfile(namaOperator) {
     if (elId) elId.innerText = `ID: ${profile.id}`;
     
     if (elAvatarBox) {
-        elAvatarBox.style.color = ''; // Reset warna ikon lock
+        elAvatarBox.style.color = '';
         if (profile.photo && profile.photo.trim() !== "") {
             elAvatarBox.innerHTML = `<img src="${profile.photo}" alt="${profile.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 3px;">`;
             elAvatarBox.style.background = 'transparent';
@@ -140,11 +137,9 @@ function verifyOperatorLogin() {
   const alertBox = document.getElementById('loginAlertBox');
   const modal = document.getElementById('loginModal');
 
-  // Ambil operator resmi yang bertugas minggu ini
   const activeShiftOperator = typeof getActiveOperator === 'function' ? getActiveOperator() : "DWI";
   const activeProfile = operatorsProfile[activeShiftOperator];
 
-  // Cek apakah input cocok dengan Nama atau ID dari Operator Shift Aktif
   const isInputValid = (inputVal === activeShiftOperator) || (activeProfile && inputVal === activeProfile.id);
 
   if (isInputValid) {
@@ -156,7 +151,6 @@ function verifyOperatorLogin() {
     
     if (errorMsg) errorMsg.style.display = 'none';
     if (alertBox) {
-      // Menggunakan innerHTML dengan ikon Font Awesome (circle-check)
       alertBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span id="alertSuccessText">Verifikasi Berhasil! Selamat Bertugas, ${activeShiftOperator}!</span>`;
       alertBox.style.top = '0px';
     }
@@ -178,7 +172,6 @@ function verifyOperatorLogin() {
 
   } else {
     if (errorMsg) {
-      // Menggunakan innerHTML dengan ikon Font Awesome (circle-xmark)
       errorMsg.innerHTML = `<i class="fa-solid fa-circle-xmark" style="margin-right: 4px;"></i> Access Denied! Harap masukkan operator yang valid`;
       errorMsg.style.display = 'block';
     }
@@ -261,13 +254,11 @@ async function processData() {
     return;
   }
 
-  // --- SAAT TOMBOL DIKLIK (LOADING) ---
   if (btn) btn.disabled = true;
   
   if (btnSpinner) btnSpinner.style.setProperty('display', 'inline-block', 'important');
   if (btnText) btnText.style.setProperty('display', 'none', 'important');
 
-  // --- TERMINAL LOG DENGAN FONT AWESOME ICONS ---
   if (logDiv) logDiv.style.display = 'block';
   if (logTextSpan) logTextSpan.innerHTML = '[' + new Date().toLocaleTimeString() + '] <i class="fa-solid fa-network-wired" style="color: #22c55e; margin-right: 6px;"></i>Menghubungkan ke Cloud Database Google Drive...';
   if (logDiv) logDiv.scrollTop = logDiv.scrollHeight;
@@ -355,7 +346,6 @@ async function processData() {
     setTimeout(() => { showCustomAlert('Terjadi Kesalahan: ' + errorMessage, ''); }, 800);
   }
   
-  // --- KEMBALI KE SEMULA SAAT SELESAI / ERROR ---
   if (btn) btn.disabled = false;
   if (btnSpinner) btnSpinner.style.setProperty('display', 'none', 'important');
   if (btnText) {
@@ -363,7 +353,6 @@ async function processData() {
     btnText.innerHTML = '<i class="fa-solid fa-bolt-lightning"></i> EXECUTE';
   }
 }
-
 
 function showCustomAlert(message, downloadUrl) {
   currentDownloadUrl = downloadUrl || "";
@@ -384,6 +373,7 @@ function showCustomAlert(message, downloadUrl) {
   const modal = document.getElementById('customAlertModal');
   if (modal) modal.style.display = 'flex';
 }
+
 async function downloadExcelWithProgress(serverResponse) {
   if (serverResponse) {
     window.globalServerResponse = serverResponse;
@@ -574,16 +564,16 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         localStorage.removeItem('gudang_active_operator');
         if (modal) modal.style.display = 'flex';
-        setOperatorProfile(); // <--- Tambahkan ini agar terkunci bersih saat sesi expired!
+        setOperatorProfile();
       }
     } catch (e) {
       localStorage.removeItem('gudang_active_operator');
       if (modal) modal.style.display = 'flex';
-      setOperatorProfile(); // <--- Tambahkan ini juga pada blok catch error!
+      setOperatorProfile();
     }
   } else {
     if (modal) modal.style.display = 'flex';
-    setOperatorProfile(); // <--- Tambahkan ini agar terkunci bersih saat belum ada session sama sekali!
+    setOperatorProfile();
   }
 });
 
@@ -725,10 +715,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// LOGIKA TAP TO ENTER OVERLAY (FIX KLIK DI HP DAN DESKTOP)
 document.addEventListener('DOMContentLoaded', () => {
     const gate = document.getElementById('tap-to-enter-gate');
     
     if (gate) {
+        // Hilangkan pembatasan pointer-events elemen dalam
+        const childContainer = gate.firstElementChild;
+        if (childContainer) {
+            childContainer.style.pointerEvents = 'none';
+        }
+
         gate.addEventListener('click', () => {
             const welcomeAudio = new Audio(`https://raw.githubusercontent.com/Nov-dev02/Gudang-Web-App/main/audio/Welcome.mp3?v=${new Date().getTime()}`);
             welcomeAudio.volume = 0.9;
@@ -741,12 +738,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     }
 });
+
 async function ambilDanPasteRekapan(btn) {
   const originalText = '<i class="fa-solid fa-rotate"></i> Sync';
   
   if (btn) {
     btn.disabled = true;
-    // Pakai ikon fa-rotate + fa-spin biar berputar halus pas loading
     btn.innerHTML = '<i class="fa-solid fa-rotate fa-spin"></i> Loading...';
   }
 
@@ -782,7 +779,6 @@ async function ambilDanPasteRekapan(btn) {
     }
   }
 }
-
 
 // ==========================================
 // 🕹️ FUNGSI TITLEBAR & MODAL SETTINGS DYNAMIC GAS
@@ -832,7 +828,6 @@ function tutupAplikasi() {
   }
 }
 
-// Buka Modal Settings
 function bukaModalGas() {
   const modal = document.getElementById('modal-gas-config');
   const input = document.getElementById('input-gas-url');
@@ -842,29 +837,20 @@ function bukaModalGas() {
   }
 }
 
-// Tutup Modal Settings
 function tutupModalGas() {
   const modal = document.getElementById('modal-gas-config');
   if (modal) modal.style.display = 'none';
 }
-// Simpan Link GAS Baru ke LocalStorage & Set Flag Auto-Bypass
+
 function simpanGasUrl() {
   const input = document.getElementById('input-gas-url');
   if (input && input.value.trim() !== '') {
     const newUrl = input.value.trim();
     localStorage.setItem('GUDANG_GAS_URL', newUrl);
-    
-    // Set flag bypass agar setelah refresh langsung lompat ke halaman utama
     localStorage.setItem('GUDANG_REFRESH_BYPASS', 'true');
-    
-    // Tutup modal input setting
     tutupModalGas();
-
-    // Tampilkan Toast Notifikasi Custom di Tengah Atas
     showCustomToastNotification("Menyimpan URL GAS & Memuat Ulang...", "#38bdf8");
 
-    // BERI JEDA WAKTU (DELAY) 1.5 DETIK SEBELUM REFRESH
-    // Ini bikin animasi toast muncul sempurna dulu di tengah, baru halaman reload.
     setTimeout(() => {
       window.location.reload();
     }, 1500);
@@ -874,14 +860,11 @@ function simpanGasUrl() {
   }
 }
 
-// Helper Toast Notifikasi Custom Melayang
 function showCustomToastNotification(message, borderColor) {
-  // 1. Cek apakah container khusus toast sudah ada di body, kalau belum kita buatkan
   let container = document.getElementById('global-toast-wrapper');
   if (!container) {
     container = document.createElement('div');
     container.id = 'global-toast-wrapper';
-    // Pakai flexbox centang tengah layar atas secara mutlak
     container.style.cssText = `
       position: fixed;
       top: 25px;
@@ -896,10 +879,8 @@ function showCustomToastNotification(message, borderColor) {
     document.body.appendChild(container);
   }
 
-  // 2. Bersihkan toast lama jika ada
   container.innerHTML = '';
 
-  // 3. Buat elemen toast-nya
   const notif = document.createElement('div');
   notif.style.cssText = `
     background: rgba(15, 23, 42, 0.98);
@@ -926,31 +907,26 @@ function showCustomToastNotification(message, borderColor) {
 
   container.appendChild(notif);
 
-  // 4. Hapus otomatis setelah 3 detik
   setTimeout(() => {
     if (notif) notif.remove();
   }, 3000);
 }
-// Logika Auto-Bypass Layar Awal Setelah Refresh Setting
+
 document.addEventListener('DOMContentLoaded', () => {
   const isBypass = localStorage.getItem('GUDANG_REFRESH_BYPASS');
   if (isBypass === 'true') {
-    // Hapus flag bypass agar tidak memicu bypass permanen
     localStorage.removeItem('GUDANG_REFRESH_BYPASS');
 
-    // Sembunyikan Gerbang Tap to Enter & Boot Screen
     const gate = document.getElementById('tap-to-enter-gate');
     const boot = document.getElementById('boot-screen');
     
     if (gate) gate.style.display = 'none';
     if (boot) boot.style.display = 'none';
 
-    // Munculkan kontainer utama & aktifkan teks berputar
     const mainContainer = document.querySelector('.container');
     if (mainContainer) mainContainer.classList.add('run-animation');
     if (typeof initTextFadeRotator === 'function') initTextFadeRotator();
 
-    // Berikan konfirmasi visual bawaan
     setTimeout(() => {
       if (typeof showToast === 'function') {
         showToast("Sistem Siap! Database GAS Berhasil Diperbarui.", "✅");
@@ -958,79 +934,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 400);
   }
 });
+
 function clearGasInput() {
   const input = document.getElementById('input-gas-url');
   if (input) {
     input.value = '';
-    input.focus(); // Mengembalikan kursor langsung aktif di kotak input
-  }
-}
-    textExpiry.innerText = expiryDate.toLocaleString('id-ID', {
-      day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
-    }) + ' WIB';
-  }
-
-  // Hitung sisa hari / jam
-  const diffTime = expiryDate - now;
-  if (diffTime > 0) {
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    if (textCountdown) textCountdown.innerText = `${diffDays} Hari ${diffHours} Jam Lagi`;
-  } else {
-    if (textCountdown) textCountdown.innerText = 'Sudah Kedaluwarsa!';
+    input.focus();
   }
 }
 
-// Simpan Token Baru dari Panel Admin
-function simpanTokenDariPanel() {
-  const inputToken = document.getElementById('inputPanelNxToken');
-  if (!inputToken || !inputToken.value.trim()) {
-    alert("Harap masukkan token lisensi NX yang valid!");
-    return;
-  }
-
-  const valToken = inputToken.value.trim();
-  const decodedDate = decodeTokenToDate(valToken);
-
-  if (decodedDate && decodedDate > new Date()) {
-    localStorage.setItem('gudang_token_expiry', decodedDate.toISOString());
-    localStorage.removeItem('gudang_status_terkunci');
-    alert("Token Lisensi NX Berhasil Diperbarui!");
-    tutupModalNxAdmin();
-    location.reload();
-  } else {
-    alert("Token tidak valid atau format NX terenkripsi salah!");
-  }
-}
-
-// Simulasi Kunci Sistem (Untuk Keperluan Testing Pengembang)
-function simulasiKunciSistem() {
-  if (confirm("Gunakan fitur ini untuk mengetes penguncian layar otomatis (ERR_EXPIRED_TOKEN)?")) {
-    const kemarin = new Date();
-    kemarin.setDate(kemarin.getDate() - 1);
-    localStorage.setItem('gudang_token_expiry', kemarin.toISOString());
-    location.reload();
-  }
-}
 // =========================================================================
 // 🔒 LOGIKA CONTROL PANEL LISENSI NX & EGG TRIGGER (SUPER ADMIN ONLY)
 // =========================================================================
-const ADMIN_NX_PIN = "2026"; // PIN Rahasia milikmu (Bisa kamu ubah sendiri!)
+const ADMIN_NX_PIN = "2026";
 
 let secretClickCount = 0;
 let secretClickTimer = null;
 
-// Attach event click ke Logo dan Teks Judul di Header saat DOM selesai dimuat
 document.addEventListener('DOMContentLoaded', () => {
-  // Targetkan logo favicon dan judul utama agar bisa disentuh dengan mudah di HP/PC
   const logoElements = document.querySelectorAll('img[src*="favicon"], header img, div img');
   const titleElements = document.querySelectorAll('h2');
   
-  // Gabungkan target elemen supaya area kliknya lebih luas dan gampang ditekan
   const clickTargets = [...logoElements, ...titleElements];
 
   clickTargets.forEach(el => {
-    // Pastikan hanya elemen di bagian header atas yang dipasangi listener
     if (el.closest('.container') && el.closest('.container') === document.querySelector('.container')) {
       el.style.cursor = 'pointer';
       el.addEventListener('click', handleSecretTriggerClick);
@@ -1038,15 +965,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Fungsi Pemicu Ketukan 5x Berturut-turut
 function handleSecretTriggerClick(e) {
-  e.stopPropagation(); // Mencegah bentrok event klik lain
+  e.stopPropagation();
   secretClickCount++;
   
   if (secretClickCount === 1) {
     secretClickTimer = setTimeout(() => {
       secretClickCount = 0;
-    }, 2000); // Reset penghitung jika jeda antar ketukan lebih dari 2 detik
+    }, 2000);
   }
 
   if (secretClickCount >= 5) {
@@ -1056,7 +982,6 @@ function handleSecretTriggerClick(e) {
   }
 }
 
-// Buka Modal Admin PIN
 function bukaModalNxAdmin() {
   const modal = document.getElementById('modal-nx-admin');
   const pinStep = document.getElementById('nx-pin-step');
@@ -1076,13 +1001,11 @@ function bukaModalNxAdmin() {
   }
 }
 
-// Tutup Modal Admin
 function tutupModalNxAdmin() {
   const modal = document.getElementById('modal-nx-admin');
   if (modal) modal.style.display = 'none';
 }
 
-// Verifikasi PIN
 function verifikasiNxPin() {
   const inputPin = document.getElementById('inputNxPin');
   const errPin = document.getElementById('nxPinError');
@@ -1104,7 +1027,6 @@ function verifikasiNxPin() {
   }
 }
 
-// Izinkan tekan Enter di input PIN
 document.addEventListener('DOMContentLoaded', () => {
   const inputPin = document.getElementById('inputNxPin');
   if (inputPin) {
@@ -1114,7 +1036,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Muat Status & Masa Aktif Token NX di Panel Admin
 function muatDataPanelNx() {
   const savedExpiry = localStorage.getItem('gudang_token_expiry');
   const badge = document.getElementById('nxStatusBadge');
@@ -1155,7 +1076,6 @@ function muatDataPanelNx() {
     }) + ' WIB';
   }
 
-  // Hitung sisa hari / jam
   const diffTime = expiryDate - now;
   if (diffTime > 0) {
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
@@ -1166,7 +1086,6 @@ function muatDataPanelNx() {
   }
 }
 
-// Simpan Token Baru dari Panel Admin
 function simpanTokenDariPanel() {
   const inputToken = document.getElementById('inputPanelNxToken');
   if (!inputToken || !inputToken.value.trim()) {
@@ -1188,7 +1107,6 @@ function simpanTokenDariPanel() {
   }
 }
 
-// Simulasi Kunci Sistem (Untuk Keperluan Testing Pengembang)
 function simulasiKunciSistem() {
   if (confirm("Gunakan fitur ini untuk mengetes penguncian layar otomatis (ERR_EXPIRED_TOKEN)?")) {
     const kemarin = new Date();
@@ -1197,5 +1115,3 @@ function simulasiKunciSistem() {
     location.reload();
   }
 }
-
-
