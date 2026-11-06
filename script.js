@@ -36,13 +36,13 @@ function updateThemeButtonUI(theme) {
         if (thumbEl) {
             thumbEl.style.transform = 'translateX(26px)';
             thumbEl.style.background = '#f59e0b';
-            thumbEl.innerText = '☀️';
+            thumbEl.innerHTML = '<i class="fa-solid fa-sun" style="font-size: 11px; color: #070b14;"></i>';
         }
     } else {
         if (thumbEl) {
             thumbEl.style.transform = 'translateX(0px)';
             thumbEl.style.background = '#38bdf8';
-            thumbEl.innerText = '🌙';
+            thumbEl.innerHTML = '<i class="fa-solid fa-moon" style="font-size: 11px; color: #070b14;"></i>';
         }
     }
 }
@@ -178,6 +178,7 @@ function verifyOperatorLogin() {
   }
 }
 
+// Counter baris data menggunakan ikon Font Awesome
 function updateRowCounter() {
   const textarea = document.getElementById('shopeeData');
   const rowCounter = document.getElementById('rowCounter');
@@ -188,7 +189,7 @@ function updateRowCounter() {
   let totalLines = lines.length;
 
   if (totalLines === 0) {
-    rowCounter.innerText = `📊 0 baris data`;
+    rowCounter.innerHTML = `<i class="fa-solid fa-chart-bar" style="margin-right: 5px; color: #38bdf8;"></i> 0 baris data`;
     return;
   }
 
@@ -213,9 +214,9 @@ function updateRowCounter() {
   });
 
   if (shopeeCount > 0 || tiktokCount > 0) {
-    rowCounter.innerHTML = `📊 ${totalLines.toLocaleString()} baris <span style="font-size: 10px; opacity: 0.85; margin-left: 4px; font-weight: normal;">(Shopee: ${shopeeCount} | TikTok:${tiktokCount})</span>`;
+    rowCounter.innerHTML = `<i class="fa-solid fa-chart-bar" style="margin-right: 5px; color: #38bdf8;"></i> ${totalLines.toLocaleString()} baris <span style="font-size: 10px; opacity: 0.85; margin-left: 4px; font-weight: normal;">(Shopee: ${shopeeCount} | TikTok:${tiktokCount})</span>`;
   } else {
-    rowCounter.innerText = `📊 ${totalLines.toLocaleString()} baris data`;
+    rowCounter.innerHTML = `<i class="fa-solid fa-chart-bar" style="margin-right: 5px; color: #38bdf8;"></i> ${totalLines.toLocaleString()} baris data`;
   }
 }
 
@@ -250,7 +251,7 @@ async function processData() {
   const logTextSpan = document.getElementById('logText');
   
   if (!shopeeData) {
-    showCustomAlert('Silakan paste data Shopee & TikTok terlebih dahulu ya! 😊', '');
+    showNxCustomAlert("Silakan paste data Shopee & TikTok terlebih dahulu ya!", false);
     return;
   }
 
@@ -313,7 +314,7 @@ async function processData() {
       }
       
       textarea.value = '';
-      if (rowCounter) rowCounter.innerText = '📊 0 baris data';
+      if (rowCounter) rowCounter.innerHTML = `<i class="fa-solid fa-chart-bar" style="margin-right: 5px; color: #38bdf8;"></i> 0 baris data`;
 
       playSuccessSound();
       addCumulativeTotal(messageLines.length);
@@ -363,7 +364,7 @@ function showCustomAlert(message, downloadUrl) {
   const downloadBtnText = document.getElementById('downloadBtnText');
   
   if (progressBar) progressBar.style.width = '0%';
-  if (downloadBtnText) downloadBtnText.innerText = '📥 Download Laporan Excel';
+  if (downloadBtnText) downloadBtnText.innerHTML = '<i class="fa-solid fa-download" style="margin-right: 6px;"></i> Download Laporan Excel';
   if (downloadBtn) downloadBtn.disabled = false;
   
   if (downloadBtn) {
@@ -381,7 +382,7 @@ async function downloadExcelWithProgress(serverResponse) {
 
   const targetUrl = currentDownloadUrl || (window.globalServerResponse && window.globalServerResponse.downloadUrl) || "";
   if (!targetUrl) {
-    alert("URL download belum tersedia dari server.");
+    showNxCustomAlert("URL download belum tersedia dari server.", false);
     closeCustomAlert();
     return;
   }
@@ -399,19 +400,19 @@ async function downloadExcelWithProgress(serverResponse) {
 
   let progress = 10;
   if (progressBar) progressBar.style.width = progress + '%';
-  if (downloadBtnText) downloadBtnText.innerText = `⏳ Menyiapkan Unduhan... (${progress}%)`;
+  if (downloadBtnText) downloadBtnText.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="margin-right: 6px;"></i> Menyiapkan Unduhan... (${progress}%)`;
 
   try {
     progress = 40;
     if (progressBar) progressBar.style.width = progress + '%';
-    if (downloadBtnText) downloadBtnText.innerText = `⏳ Mengambil Berkas... (${progress}%)`;
+    if (downloadBtnText) downloadBtnText.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="margin-right: 6px;"></i> Mengambil Berkas... (${progress}%)`;
 
     const response = await fetch(targetUrl);
     const blobData = await response.blob();
 
     progress = 80;
     if (progressBar) progressBar.style.width = progress + '%';
-    if (downloadBtnText) downloadBtnText.innerText = `⏳ Merakit Berkas... (${progress}%)`;
+    if (downloadBtnText) downloadBtnText.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="margin-right: 6px;"></i> Merakit Berkas... (${progress}%)`;
 
     const months = ["JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"];
     const now = new Date();
@@ -427,7 +428,7 @@ async function downloadExcelWithProgress(serverResponse) {
     a.click();
     progress = 100;
     if (progressBar) progressBar.style.width = progress + '%';
-    if (downloadBtnText) downloadBtnText.innerText = `✅ Berhasil Diunduh!`;
+    if (downloadBtnText) downloadBtnText.innerHTML = `<i class="fa-solid fa-circle-check" style="margin-right: 6px; color: #22c55e;"></i> Berhasil Diunduh!`;
 
     setTimeout(() => {
       document.body.removeChild(a);
@@ -441,7 +442,7 @@ async function downloadExcelWithProgress(serverResponse) {
 
   } catch (err) {
     console.error("Gagal mendownload file:", err);
-    alert("Terjadi kesalahan saat mengunduh file Excel.");
+    showNxCustomAlert("Terjadi kesalahan saat mengunduh file Excel.", false);
     if (downloadBtn) downloadBtn.disabled = false;
     if (closeModalBtn) {
       closeModalBtn.style.opacity = '1';
@@ -532,9 +533,10 @@ function addCumulativeTotal(amount) {
   renderCumulativeCounter();
 }
 
+// Counter akumulatif paket dengan ikon Font Awesome
 function renderCumulativeCounter() {
   const badge = document.getElementById('dailyCounterBadge');
-  if (badge) badge.innerText = `📦 Total: ${getCumulativeTotal().toLocaleString()} paket`;
+  if (badge) badge.innerHTML = `<i class="fa-solid fa-box-archive" style="margin-right: 5px; color: #38bdf8;"></i> Total: ${getCumulativeTotal().toLocaleString()} paket`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -590,7 +592,7 @@ function selesaiDanDownload() {
   
   const msg = (window.globalServerResponse && window.globalServerResponse.message) 
     ? window.globalServerResponse.message 
-    : "✅ Transaksi selesai dan laporan berhasil diproses!";
+    : "Transaksi selesai dan laporan berhasil diproses!";
     
   const url = currentDownloadUrl || (window.globalServerResponse && (window.globalServerResponse.downloadUrl || window.globalServerResponse.fileUrl || window.globalServerResponse.spreadsheetUrl)) || "";
   
@@ -602,7 +604,7 @@ async function kirimAksiPendingCancel(actionType) {
   const noTransaksi = inputEl ? inputEl.value.trim() : '';
   
   if (!noTransaksi) {
-    alert("Harap masukkan atau scan Nomor Transaksi terlebih dahulu!");
+    showNxCustomAlert("Harap masukkan atau scan Nomor Transaksi terlebih dahulu!", false);
     return;
   }
 
@@ -684,7 +686,7 @@ async function kirimAksiPendingCancel(actionType) {
     }
 
   } catch (error) { 
-    alert("Terjadi kesalahan: " + error.message);
+    showNxCustomAlert("Terjadi kesalahan: " + error.message, false);
     if (btn) {
       btn.disabled = false;
       btn.innerHTML = `Set ${actionLabel}`;
@@ -720,7 +722,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const gate = document.getElementById('tap-to-enter-gate');
     
     if (gate) {
-        // Hilangkan pembatasan pointer-events elemen dalam
         const childContainer = gate.firstElementChild;
         if (childContainer) {
             childContainer.style.pointerEvents = 'none';
@@ -752,12 +753,12 @@ async function ambilDanPasteRekapan(btn) {
     const res = await response.json();
     
     if (res.error) {
-      alert("⚠ Error: " + res.error);
+      showNxCustomAlert("Error: " + res.error, false);
       return;
     }
     
     if (!res.transactions || res.transactions.length === 0) {
-      alert("⚠️ Tidak ada No Transaksi yang ditemukan di Kolom H sheet 'ALL' spreadsheet TRANSAKSI JUNI!");
+      showNxCustomAlert("Tidak ada No Transaksi yang ditemukan di Kolom H sheet 'ALL' spreadsheet TRANSAKSI JUNI!", false);
       return;
     }
     
@@ -767,11 +768,11 @@ async function ambilDanPasteRekapan(btn) {
       textarea.value = teksGabungan;
       textarea.dispatchEvent(new Event('input'));
     } else {
-      alert("⚠️ Kotak teks (textarea) tidak ditemukan di halaman ini!");
+      showNxCustomAlert("Kotak teks (textarea) tidak ditemukan di halaman ini!", false);
     }
     
   } catch (err) {
-    alert("❌ Gagal mengambil data rekapan: " + err);
+    showNxCustomAlert("Gagal mengambil data rekapan: " + err, false);
   } finally {
     if (btn) {
       btn.disabled = false;
@@ -823,9 +824,7 @@ function toggleFullscreen() {
 }
 
 function tutupAplikasi() {
-  if (confirm("Tutup aplikasi Gudang Nuhsantara?")) {
-    window.close();
-  }
+  showNxCustomAlert("Tutup halaman lewat navigasi tab browser kamu ya, Bro!", false);
 }
 
 function bukaModalGas() {
@@ -856,7 +855,7 @@ function simpanGasUrl() {
     }, 1500);
 
   } else {
-    showCustomToastNotification("⚠️ Harap masukkan URL GAS yang valid!", "#f43f5e");
+    showCustomToastNotification("Harap masukkan URL GAS yang valid!", "#f43f5e");
   }
 }
 
@@ -902,7 +901,7 @@ function showCustomToastNotification(message, borderColor) {
 
   notif.innerHTML = `
     <div class="modern-spinner"></div>
-    <span>${message}</span>
+    <span><i class="fa-solid fa-circle-info" style="margin-right: 6px; color: ${borderColor};"></i>${message}</span>
   `;
 
   container.appendChild(notif);
@@ -1086,10 +1085,131 @@ function muatDataPanelNx() {
   }
 }
 
+// =========================================================================
+// 🔓 FUNGSI DECODER TOKEN LISENSI NX (SESUAI GENERATOR INDEX.HTML)
+// =========================================================================
+function decodeTokenToDate(token) {
+  try {
+    if (!token || !token.includes("NX")) return null;
+
+    let afterNx = token.split("NX")[1];
+    if (!afterNx || afterNx.length <= 18) return null;
+
+    let hexString = afterNx.slice(0, -18);
+    let timestamp = parseInt(hexString, 16);
+    
+    if (isNaN(timestamp)) return null;
+
+    return new Date(timestamp);
+  } catch (e) {
+    console.error("Gagal mendecode token NX:", e);
+    return null;
+  }
+}
+
+// =========================================================================
+// 🎨 CUSTOM MODAL NOTIFIKASI MODERN (MENGGANTIKAN ALERT BAWAAN BROWSER)
+// =========================================================================
+function showNxCustomAlert(message, isSuccess = true) {
+  let alertModal = document.getElementById('nxCustomAlertModal');
+  
+  if (!alertModal) {
+    alertModal = document.createElement('div');
+    alertModal.id = 'nxCustomAlertModal';
+    alertModal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(7, 11, 20, 0.85);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2147483647;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    `;
+    
+    alertModal.innerHTML = `
+      <div style="
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid #334155;
+        padding: 24px;
+        border-radius: 16px;
+        width: 85%;
+        max-width: 340px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        text-align: center;
+        font-family: monospace;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+      " id="nxAlertBoxContent">
+        <div id="nxAlertIcon" style="font-size: 36px; margin-bottom: 12px;"></div>
+        <div id="nxAlertTitle" style="font-size: 15px; font-weight: bold; color: #f8fafc; margin-bottom: 8px;"></div>
+        <div id="nxAlertMessage" style="font-size: 12.5px; color: #94a3b8; margin-bottom: 20px; line-height: 1.4;"></div>
+        <button id="nxAlertCloseBtn" style="
+          background: #0284c7;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 8px;
+          font-weight: bold;
+          font-family: monospace;
+          cursor: pointer;
+          width: 100%;
+          font-size: 13px;
+        ">OK</button>
+      </div>
+    `;
+    document.body.appendChild(alertModal);
+  }
+
+  const iconEl = document.getElementById('nxAlertIcon');
+  const titleEl = document.getElementById('nxAlertTitle');
+  const msgEl = document.getElementById('nxAlertMessage');
+  const closeBtn = document.getElementById('nxAlertCloseBtn');
+  const boxContent = document.getElementById('nxAlertBoxContent');
+
+  if (isSuccess) {
+    iconEl.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #22c55e;"></i>';
+    titleEl.innerText = "BERHASIL";
+    closeBtn.style.background = '#22c55e';
+    closeBtn.style.color = '#070b14';
+  } else {
+    iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i>';
+    titleEl.innerText = "PERHATIAN";
+    closeBtn.style.background = '#ef4444';
+    closeBtn.style.color = '#ffffff';
+  }
+
+  msgEl.innerText = message;
+  
+  alertModal.style.display = 'flex';
+  setTimeout(() => {
+    alertModal.style.opacity = '1';
+    boxContent.style.transform = 'scale(1)';
+  }, 10);
+
+  closeBtn.onclick = () => {
+    alertModal.style.opacity = '0';
+    boxContent.style.transform = 'scale(0.9)';
+    setTimeout(() => {
+      alertModal.style.display = 'none';
+      if (isSuccess && window.shouldReloadAfterAlert) {
+        window.location.reload();
+      }
+    }, 300);
+  };
+}
+
+// Simpan Token Baru dari Panel Admin (Menggunakan Custom Alert)
 function simpanTokenDariPanel() {
   const inputToken = document.getElementById('inputPanelNxToken');
   if (!inputToken || !inputToken.value.trim()) {
-    alert("Harap masukkan token lisensi NX yang valid!");
+    window.shouldReloadAfterAlert = false;
+    showNxCustomAlert("Harap masukkan token lisensi NX yang valid!", false);
     return;
   }
 
@@ -1099,19 +1219,20 @@ function simpanTokenDariPanel() {
   if (decodedDate && decodedDate > new Date()) {
     localStorage.setItem('gudang_token_expiry', decodedDate.toISOString());
     localStorage.removeItem('gudang_status_terkunci');
-    alert("Token Lisensi NX Berhasil Diperbarui!");
+    window.shouldReloadAfterAlert = true;
     tutupModalNxAdmin();
-    location.reload();
+    showNxCustomAlert("Token Lisensi NX Berhasil Diperbarui!", true);
   } else {
-    alert("Token tidak valid atau format NX terenkripsi salah!");
+    window.shouldReloadAfterAlert = false;
+    showNxCustomAlert("Token tidak valid atau sudah kedaluwarsa!", false);
   }
 }
 
+// Simulasi Kunci Sistem (Menggunakan Custom Alert)
 function simulasiKunciSistem() {
-  if (confirm("Gunakan fitur ini untuk mengetes penguncian layar otomatis (ERR_EXPIRED_TOKEN)?")) {
-    const kemarin = new Date();
-    kemarin.setDate(kemarin.getDate() - 1);
-    localStorage.setItem('gudang_token_expiry', kemarin.toISOString());
-    location.reload();
-  }
+  const kemarin = new Date();
+  kemarin.setDate(kemarin.getDate() - 1);
+  localStorage.setItem('gudang_token_expiry', kemarin.toISOString());
+  window.shouldReloadAfterAlert = true;
+  showNxCustomAlert("Simulasi Kunci Sistem Berhasil Diterapkan!", true);
 }
