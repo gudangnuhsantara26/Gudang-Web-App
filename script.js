@@ -929,7 +929,7 @@ function showCustomToastNotification(message, borderColor) {
   // 4. Hapus otomatis setelah 3 detik
   setTimeout(() => {
     if (notif) notif.remove();
-  }, 3000);2
+  }, 3000);
 }
 // Logika Auto-Bypass Layar Awal Setelah Refresh Setting
 document.addEventListener('DOMContentLoaded', () => {
