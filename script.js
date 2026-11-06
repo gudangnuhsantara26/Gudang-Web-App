@@ -929,7 +929,7 @@ function showCustomToastNotification(message, borderColor) {
   // 4. Hapus otomatis setelah 3 detik
   setTimeout(() => {
     if (notif) notif.remove();
-  }, 3000);
+  }, 3000);2
 }
 // Logika Auto-Bypass Layar Awal Setelah Refresh Setting
 document.addEventListener('DOMContentLoaded', () => {
@@ -965,4 +965,181 @@ function clearGasInput() {
     input.focus(); // Mengembalikan kursor langsung aktif di kotak input
   }
 }
+// =========================================================================
+// 🔒 LOGIKA CONTROL PANEL LISENSI NX & EGG TRIGGER (SUPER ADMIN ONLY)
+// =========================================================================
+const ADMIN_NX_PIN = "2026"; // PIN Rahasia milikmu (Bisa kamu ubah sendiri!)
+
+let logoClickCount = 0;
+let logoClickTimer = null;
+
+// Attach event click ke logo header saat DOM selesai dimuat
+document.addEventListener('DOMContentLoaded', () => {
+  // Ambil elemen logo di header atas
+  const logoHeader = document.querySelector('header img, div img[alt="Logo NM"]');
+  if (logoHeader) {
+    logoHeader.style.cursor = 'pointer';
+    logoHeader.addEventListener('click', handleLogoSecretClick);
+  }
+});
+
+// Fungsi Pemicu Klik Logo 5x Berturut-turut
+function handleLogoSecretClick() {
+  logoClickCount++;
+  
+  if (logoClickCount === 1) {
+    logoClickTimer = setTimeout(() => {
+      logoClickCount = 0;
+    }, 2000); // Reset penghitung jika jeda lebih dari 2 detik
+  }
+
+  if (logoClickCount >= 5) {
+    clearTimeout(logoClickTimer);
+    logoClickCount = 0;
+    bukaModalNxAdmin();
+  }
+}
+
+// Buka Modal Admin PIN
+function bukaModalNxAdmin() {
+  const modal = document.getElementById('modal-nx-admin');
+  const pinStep = document.getElementById('nx-pin-step');
+  const panelStep = document.getElementById('nx-panel-step');
+  const inputPin = document.getElementById('inputNxPin');
+  const errPin = document.getElementById('nxPinError');
+
+  if (modal && pinStep && panelStep) {
+    pinStep.style.display = 'block';
+    panelStep.style.display = 'none';
+    if (errPin) errPin.style.display = 'none';
+    if (inputPin) {
+      inputPin.value = '';
+      setTimeout(() => inputPin.focus(), 100);
+    }
+    modal.style.display = 'flex';
+  }
+}
+
+// Tutup Modal Admin
+function tutupModalNxAdmin() {
+  const modal = document.getElementById('modal-nx-admin');
+  if (modal) modal.style.display = 'none';
+}
+
+// Verifikasi PIN
+function verifikasiNxPin() {
+  const inputPin = document.getElementById('inputNxPin');
+  const errPin = document.getElementById('nxPinError');
+  const pinStep = document.getElementById('nx-pin-step');
+  const panelStep = document.getElementById('nx-panel-step');
+
+  if (inputPin && inputPin.value.trim() === ADMIN_NX_PIN) {
+    if (errPin) errPin.style.display = 'none';
+    pinStep.style.display = 'none';
+    panelStep.style.display = 'block';
+    muatDataPanelNx();
+  } else {
+    if (errPin) errPin.style.display = 'block';
+    if (inputPin) {
+      inputPin.style.border = '1px solid #ef4444';
+      inputPin.value = '';
+      inputPin.focus();
+    }
+  }
+}
+
+// Izinkan tekan Enter di input PIN
+document.addEventListener('DOMContentLoaded', () => {
+  const inputPin = document.getElementById('inputNxPin');
+  if (inputPin) {
+    inputPin.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') verifikasiNxPin();
+    });
+  }
+});
+
+// Muat Status & Masa Aktif Token NX di Panel Admin
+function muatDataPanelNx() {
+  const savedExpiry = localStorage.getItem('gudang_token_expiry');
+  const badge = document.getElementById('nxStatusBadge');
+  const textExpiry = document.getElementById('nxExpiryText');
+  const textCountdown = document.getElementById('nxCountdownText');
+
+  if (!savedExpiry) {
+    if (badge) {
+      badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> TIDAK TERPASANG';
+      badge.style.color = '#f59e0b';
+      badge.style.background = 'rgba(245, 158, 11, 0.15)';
+    }
+    if (textExpiry) textExpiry.innerText = 'Token Bawaan / Bebas';
+    if (textCountdown) textCountdown.innerText = 'Tanpa Batasan';
+    return;
+  }
+
+  const expiryDate = new Date(savedExpiry);
+  const now = new Date();
+
+  if (now > expiryDate) {
+    if (badge) {
+      badge.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> EXPIRED';
+      badge.style.color = '#ef4444';
+      badge.style.background = 'rgba(239, 68, 68, 0.15)';
+    }
+  } else {
+    if (badge) {
+      badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> AKTIF';
+      badge.style.color = '#22c55e';
+      badge.style.background = 'rgba(34, 197, 94, 0.15)';
+    }
+  }
+
+  if (textExpiry) {
+    textExpiry.innerText = expiryDate.toLocaleString('id-ID', {
+      day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    }) + ' WIB';
+  }
+
+  // Hitung sisa hari / jam
+  const diffTime = expiryDate - now;
+  if (diffTime > 0) {
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    if (textCountdown) textCountdown.innerText = `${diffDays} Hari ${diffHours} Jam Lagi`;
+  } else {
+    if (textCountdown) textCountdown.innerText = 'Sudah Kedaluwarsa!';
+  }
+}
+
+// Simpan Token Baru dari Panel Admin
+function simpanTokenDariPanel() {
+  const inputToken = document.getElementById('inputPanelNxToken');
+  if (!inputToken || !inputToken.value.trim()) {
+    alert("Harap masukkan token lisensi NX yang valid!");
+    return;
+  }
+
+  const valToken = inputToken.value.trim();
+  const decodedDate = decodeTokenToDate(valToken);
+
+  if (decodedDate && decodedDate > new Date()) {
+    localStorage.setItem('gudang_token_expiry', decodedDate.toISOString());
+    localStorage.removeItem('gudang_status_terkunci');
+    alert("Token Lisensi NX Berhasil Diperbarui!");
+    tutupModalNxAdmin();
+    location.reload();
+  } else {
+    alert("Token tidak valid atau format NX terenkripsi salah!");
+  }
+}
+
+// Simulasi Kunci Sistem (Untuk Keperluan Testing Pengembang)
+function simulasiKunciSistem() {
+  if (confirm("Gunakan fitur ini untuk mengetes penguncian layar otomatis (ERR_EXPIRED_TOKEN)?")) {
+    const kemarin = new Date();
+    kemarin.setDate(kemarin.getDate() - 1);
+    localStorage.setItem('gudang_token_expiry', kemarin.toISOString());
+    location.reload();
+  }
+}
+
 
