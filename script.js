@@ -965,37 +965,93 @@ function clearGasInput() {
     input.focus(); // Mengembalikan kursor langsung aktif di kotak input
   }
 }
+    textExpiry.innerText = expiryDate.toLocaleString('id-ID', {
+      day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    }) + ' WIB';
+  }
+
+  // Hitung sisa hari / jam
+  const diffTime = expiryDate - now;
+  if (diffTime > 0) {
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    if (textCountdown) textCountdown.innerText = `${diffDays} Hari ${diffHours} Jam Lagi`;
+  } else {
+    if (textCountdown) textCountdown.innerText = 'Sudah Kedaluwarsa!';
+  }
+}
+
+// Simpan Token Baru dari Panel Admin
+function simpanTokenDariPanel() {
+  const inputToken = document.getElementById('inputPanelNxToken');
+  if (!inputToken || !inputToken.value.trim()) {
+    alert("Harap masukkan token lisensi NX yang valid!");
+    return;
+  }
+
+  const valToken = inputToken.value.trim();
+  const decodedDate = decodeTokenToDate(valToken);
+
+  if (decodedDate && decodedDate > new Date()) {
+    localStorage.setItem('gudang_token_expiry', decodedDate.toISOString());
+    localStorage.removeItem('gudang_status_terkunci');
+    alert("Token Lisensi NX Berhasil Diperbarui!");
+    tutupModalNxAdmin();
+    location.reload();
+  } else {
+    alert("Token tidak valid atau format NX terenkripsi salah!");
+  }
+}
+
+// Simulasi Kunci Sistem (Untuk Keperluan Testing Pengembang)
+function simulasiKunciSistem() {
+  if (confirm("Gunakan fitur ini untuk mengetes penguncian layar otomatis (ERR_EXPIRED_TOKEN)?")) {
+    const kemarin = new Date();
+    kemarin.setDate(kemarin.getDate() - 1);
+    localStorage.setItem('gudang_token_expiry', kemarin.toISOString());
+    location.reload();
+  }
+}
 // =========================================================================
 // 🔒 LOGIKA CONTROL PANEL LISENSI NX & EGG TRIGGER (SUPER ADMIN ONLY)
 // =========================================================================
 const ADMIN_NX_PIN = "2026"; // PIN Rahasia milikmu (Bisa kamu ubah sendiri!)
 
-let logoClickCount = 0;
-let logoClickTimer = null;
+let secretClickCount = 0;
+let secretClickTimer = null;
 
-// Attach event click ke logo header saat DOM selesai dimuat
+// Attach event click ke Logo dan Teks Judul di Header saat DOM selesai dimuat
 document.addEventListener('DOMContentLoaded', () => {
-  // Ambil elemen logo di header atas
-  const logoHeader = document.querySelector('header img, div img[alt="Logo NM"]');
-  if (logoHeader) {
-    logoHeader.style.cursor = 'pointer';
-    logoHeader.addEventListener('click', handleLogoSecretClick);
-  }
+  // Targetkan logo favicon dan judul utama agar bisa disentuh dengan mudah di HP/PC
+  const logoElements = document.querySelectorAll('img[src*="favicon"], header img, div img');
+  const titleElements = document.querySelectorAll('h2');
+  
+  // Gabungkan target elemen supaya area kliknya lebih luas dan gampang ditekan
+  const clickTargets = [...logoElements, ...titleElements];
+
+  clickTargets.forEach(el => {
+    // Pastikan hanya elemen di bagian header atas yang dipasangi listener
+    if (el.closest('.container') && el.closest('.container') === document.querySelector('.container')) {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', handleSecretTriggerClick);
+    }
+  });
 });
 
-// Fungsi Pemicu Klik Logo 5x Berturut-turut
-function handleLogoSecretClick() {
-  logoClickCount++;
+// Fungsi Pemicu Ketukan 5x Berturut-turut
+function handleSecretTriggerClick(e) {
+  e.stopPropagation(); // Mencegah bentrok event klik lain
+  secretClickCount++;
   
-  if (logoClickCount === 1) {
-    logoClickTimer = setTimeout(() => {
-      logoClickCount = 0;
-    }, 2000); // Reset penghitung jika jeda lebih dari 2 detik
+  if (secretClickCount === 1) {
+    secretClickTimer = setTimeout(() => {
+      secretClickCount = 0;
+    }, 2000); // Reset penghitung jika jeda antar ketukan lebih dari 2 detik
   }
 
-  if (logoClickCount >= 5) {
-    clearTimeout(logoClickTimer);
-    logoClickCount = 0;
+  if (secretClickCount >= 5) {
+    clearTimeout(secretClickTimer);
+    secretClickCount = 0;
     bukaModalNxAdmin();
   }
 }
