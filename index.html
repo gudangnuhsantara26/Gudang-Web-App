@@ -13,17 +13,14 @@
       if (!token || token.length < 15) return null;
       let cleanToken = token.trim();
       
-      // Cek apakah token mengandung marker rahasia 'NX'
       if (!cleanToken.includes('NX')) return null;
       
       let parts = cleanToken.split('NX');
       if (parts.length < 2) return null;
       
-      // Ambil bagian hex setelah 'NX'
       let hexPart = parts[1].match(/^[0-9a-fA-F]+/);
       if (!hexPart) return null;
       
-      // Ubah kembali string hex ke timestamp angka milidetik
       let timestamp = parseInt(hexPart[0], 16);
       if (isNaN(timestamp)) return null;
       
@@ -278,10 +275,8 @@
         
         <div style="display: flex; flex-direction: column; align-items: flex-end;">
           <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.08); padding: 4px 8px; border-radius: 6px;">
-            <!-- Ubah default avatar box jadi ikon gembok atau kosong -->
             <div id="operatorAvatarBox" style="width: 20px; height: 20px; border-radius: 4px; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #ef4444;"><i class="fa-solid fa-lock"></i></div>
             <div style="display: flex; flex-direction: column; line-height: 1.1;">
-              <!-- Ubah default teks jadi LOCKED / --- -->
               <span id="operatorName" style="color: #ef4444; font-weight: 600; font-size: 11px;">LOCKED</span>
               <span id="operatorId" style="color: #94a3b8; font-size: 9px; font-family: monospace;">ID: ---</span>
             </div>
@@ -406,24 +401,21 @@
 
  <!-- SCRIPT AUDIO API, BOOTING, JAM REAL-TIME & HOTKEYS -->
   <script>
-    // Rotasi Mingguan: Minggu 1 (DWI) -> Minggu 2 (NOVAN) -> Minggu 3 (ERIKA) -> Minggu 4 (IRGI)
-    const SHIFT_ROTATION = ["DWI", "NOVAN", "ERIKA", "IRGI"];
+    // Rotasi Mingguan Murni 3 Operator: Minggu 1 (DWI) -> Minggu 2 (ERIKA) -> Minggu 3 (IRGI)
+    const SHIFT_ROTATION = ["DWI", "ERIKA", "IRGI"];
     
     // Tanggal Acuan (Anchor): Senin, 26 Oktober 2026 (Awal Shift DWI)
-    const ANCHOR_MONDAY = new Date(2026, 9, 26); // Bulan di JS dimulai dari 0 (9 = Oktober)
+    const ANCHOR_MONDAY = new Date(2026, 9, 26); 
 
     function getWeekDifference() {
       const now = new Date();
-      // Set waktu ke 00:00:00 untuk kalkulasi hari bersih
       const currentDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       
-      // Cari hari Senin di minggu berjalan ini
-      const dayOfWeek = currentDate.getDay(); // 0 = Minggu, 1 = Senin, ...
-      const distanceToMonday = (dayOfWeek + 6) % 7; // Jarak ke Senin terdekat ke belakang
+      const dayOfWeek = currentDate.getDay(); 
+      const distanceToMonday = (dayOfWeek + 6) % 7; 
       const currentMonday = new Date(currentDate);
       currentMonday.setDate(currentDate.getDate() - distanceToMonday);
 
-      // Hitung selisih minggu dari Anchor Monday
       const diffInTime = currentMonday.getTime() - ANCHOR_MONDAY.getTime();
       const diffInDays = Math.floor(diffInTime / (1000 * 3600 * 24));
       const diffInWeeks = Math.floor(diffInDays / 7);
@@ -433,7 +425,6 @@
 
     function getActiveOperator() {
       const weekDiff = getWeekDifference();
-      // Menggunakan Math.floor Modulo agar rotasi berulang 0, 1, 2, 3 konsisten
       const index = ((weekDiff % SHIFT_ROTATION.length) + SHIFT_ROTATION.length) % SHIFT_ROTATION.length;
       return SHIFT_ROTATION[index];
     }
@@ -457,7 +448,6 @@
       if (savedSession) {
         try {
           const session = JSON.parse(savedSession);
-          // Jika operator di session berbeda dengan shift aktif minggu ini, hapus session agar login ulang
           if (session.name !== currentOperator) {
             localStorage.removeItem('gudang_active_operator');
           } else {
@@ -513,7 +503,6 @@ function runBootSequence() {
   if (!bootScreenEl) return;
 
   const totalDuration = bootSteps.reduce((acc, step) => acc + step.duration, 0);
-  console.log("Total durasi booting:", totalDuration);
 
   if (bootProgressFill) {
     let startTime = null;
@@ -648,7 +637,6 @@ function runBootSequence() {
   }, 3000);
 }
 
-
     window.addEventListener('keydown', (e) => {
       e.ctrlKey && e.key === 'Enter' && (() => {
         e.preventDefault();
@@ -736,6 +724,7 @@ function runBootSequence() {
     </p>
   </div>
 </div>
+
      <!-- MODAL DEVELOPER PROFILE -->
 <div id="developerModal" class="glass-modal-overlay">
   <div class="glass-modal-content">
@@ -745,14 +734,12 @@ function runBootSequence() {
     </div>
     
     <div class="glass-modal-body text-center">
-      <!-- Avatar Developer -->
       <div class="dev-avatar-container">
         <div class="dev-avatar-glow">
           <i class="fa-solid fa-user-gear"></i>
         </div>
       </div>
 
-      <!-- Nama & Title -->
       <h2 class="dev-name">Novan Arifki</h2>
       <p class="dev-title">System Architect & PWA Developer</p>
       
@@ -763,12 +750,10 @@ function runBootSequence() {
 
       <hr class="dev-divider">
 
-      <!-- Detail Deskripsi -->
       <p class="dev-bio">
         Aplikasi Web PWA Gudang Nuhsantara dirancang dan dikembangkan secara independen untuk mengoptimalkan efisiensi pemrosesan data resi & transaksi gudang secara otomatis dan terintegrasi Cloud.
       </p>
 
-      <!-- Stack Badges -->
       <div class="dev-stack">
         <span><i class="fa-brands fa-js"></i> JavaScript</span>
         <span><i class="fa-solid fa-cloud"></i> Google Apps Script</span>
@@ -781,6 +766,7 @@ function runBootSequence() {
     </div>
   </div>
 </div>
+
     <!-- ================= MODAL LISENSI NX & PIN RAHASIA (SUPER ADMIN ONLY) ================= -->
 <div id="modal-nx-admin" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(7, 11, 20, 0.9); backdrop-filter: blur(14px); z-index: 2147483646; justify-content: center; align-items: center; box-sizing: border-box; padding: 20px;">
   
