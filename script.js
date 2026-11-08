@@ -3,12 +3,10 @@
 // =========================================================================
 const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzgfgJTg5maF0gLBcmFhLwqQS9dAzqXmFthEcp_GW3WtrOKuOfqP_INVLxlm0-68Yv8fA/exec";
 
-// Fungsi untuk membaca Link GAS aktif dari LocalStorage browser
 function getGasUrl() {
   return localStorage.getItem('GUDANG_GAS_URL') || DEFAULT_GAS_URL;
 }
 
-// Properti WEB_APP_URL dibuat dinamis membaca getGasUrl()
 Object.defineProperty(window, 'WEB_APP_URL', {
   get: function() { return getGasUrl(); },
   configurable: true
@@ -47,7 +45,6 @@ function updateThemeButtonUI(theme) {
     }
 }
 
-// Otomatis terapkan tema terakhir saat halaman dimuat
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('gudang_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -55,18 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// 🛡️ DATABASE & VERIFIKASI OPERATOR SHIFT
+// 🛡️ DATABASE & VERIFIKASI OPERATOR SHIFT (MURNI 3 OPERATOR)
 // ==========================================
 const operatorsProfile = {
   "IRGI": { 
     id: "GDN-001", 
     name: "IRGI", 
     photo: "https://raw.githubusercontent.com/Nov-dev02/Gudang-Web-App/main/img/IRGI.jpg" 
-  },
-  "NOVAN": { 
-    id: "GDN-002", 
-    name: "NOVAN", 
-    photo: "" 
   },
   "DWI": { 
     id: "GDN-003", 
@@ -178,7 +170,6 @@ function verifyOperatorLogin() {
   }
 }
 
-// Counter baris data menggunakan ikon Font Awesome
 function updateRowCounter() {
   const textarea = document.getElementById('shopeeData');
   const rowCounter = document.getElementById('rowCounter');
@@ -533,7 +524,6 @@ function addCumulativeTotal(amount) {
   renderCumulativeCounter();
 }
 
-// Counter akumulatif paket dengan ikon Font Awesome
 function renderCumulativeCounter() {
   const badge = document.getElementById('dailyCounterBadge');
   if (badge) badge.innerHTML = `<i class="fa-solid fa-box-archive" style="margin-right: 5px; color: #38bdf8;"></i> Total: ${getCumulativeTotal().toLocaleString()} paket`;
@@ -717,7 +707,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// LOGIKA TAP TO ENTER OVERLAY (FIX KLIK DI HP DAN DESKTOP)
 document.addEventListener('DOMContentLoaded', () => {
     const gate = document.getElementById('tap-to-enter-gate');
     
@@ -781,9 +770,6 @@ async function ambilDanPasteRekapan(btn) {
   }
 }
 
-// ==========================================
-// 🕹️ FUNGSI TITLEBAR & MODAL SETTINGS DYNAMIC GAS
-// ==========================================
 async function refreshAplikasi() {
   const btnRefresh = document.getElementById('btn-refresh');
   const iconRefresh = document.getElementById('icon-refresh');
@@ -1085,9 +1071,6 @@ function muatDataPanelNx() {
   }
 }
 
-// =========================================================================
-// 🔓 FUNGSI DECODER TOKEN LISENSI NX (SESUAI GENERATOR INDEX.HTML)
-// =========================================================================
 function decodeTokenToDate(token) {
   try {
     if (!token || !token.includes("NX")) return null;
@@ -1107,9 +1090,6 @@ function decodeTokenToDate(token) {
   }
 }
 
-// =========================================================================
-// 🎨 CUSTOM MODAL NOTIFIKASI MODERN (MENGGANTIKAN ALERT BAWAAN BROWSER)
-// =========================================================================
 function showNxCustomAlert(message, isSuccess = true) {
   let alertModal = document.getElementById('nxCustomAlertModal');
   
@@ -1204,7 +1184,6 @@ function showNxCustomAlert(message, isSuccess = true) {
   };
 }
 
-// Simpan Token Baru dari Panel Admin (Menggunakan Custom Alert)
 function simpanTokenDariPanel() {
   const inputToken = document.getElementById('inputPanelNxToken');
   if (!inputToken || !inputToken.value.trim()) {
@@ -1228,7 +1207,6 @@ function simpanTokenDariPanel() {
   }
 }
 
-// Simulasi Kunci Sistem (Menggunakan Custom Alert)
 function simulasiKunciSistem() {
   const kemarin = new Date();
   kemarin.setDate(kemarin.getDate() - 1);
